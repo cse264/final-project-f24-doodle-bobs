@@ -13,6 +13,37 @@ async function getAllDoodles() {
     }
 }
 
+// Create a new doodle
+async function createDoodle(title, imgurLink) {
+    const query = `
+        INSERT INTO Doodle (title, imgur_link, created_at)
+        VALUES ($1, $2, NOW())
+        RETURNING *;
+    `;
+    const values = [title, imgurLink];
+    try {
+        const result = await db.query(query, values);
+        return result.rows[0]; // Return the created doodle
+    } catch (error) {
+        console.error('Error creating doodle:', error);
+        throw error;
+    }
+}
+
+// Delete a doodle by ID
+async function deleteDoodleById(id) {
+    const query = `DELETE FROM Doodle WHERE doodle_id = $1;`;
+    try {
+        const result = await db.query(query, [id]);
+        return result.rowCount > 0; // Return true if a row was deleted
+    } catch (error) {
+        console.error('Error deleting doodle:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getAllDoodles,
+    createDoodle,
+    deleteDoodleById,
 };
