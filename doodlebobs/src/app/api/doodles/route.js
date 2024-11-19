@@ -15,6 +15,7 @@ export async function GET() {
     }
 }
 
+
 // POST route to create a new doodle
 export async function POST(req) {
     try {
