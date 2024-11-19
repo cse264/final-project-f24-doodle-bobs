@@ -16,9 +16,9 @@ export async function POST() {
         while (sessionkey === (process.env.ADMIN_SESSION_KEY)) {
             sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
         }
-        const envPath = path.resolve(process.env.cwd(), '.env');
+        const envPath = path.resolve(process.cwd(), '.env');
 
-        fs.appendFileSync(envPath, `Session_KEY=${sessionkey}\n`)
+        fs.appendFileSync(envPath, `\nSession_KEY=${sessionkey}\n`)
         // Fetch all doodles for the homepage
         const doodles = await doodleModel.getAllDoodles();
 
