@@ -7,6 +7,15 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import './drawingPage.css';
 
+/**Next steps
+ * Undo and Redo: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
+ * Color Wheel: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
+ * Pen types and Sizes:
+ *      * Fabric.js: https://dev.to/ziqinyeow/step-by-step-on-how-to-setup-fabricjs-in-the-nextjs-app-3hi3
+ *      * Event Listeners, drawing logic, drawing functions, etc: https://www.geeksforgeeks.org/build-a-drawing-app-using-javascript/
+ * Buttons: Import Image, Save Doodle, Post Doodle, Exit to home
+ */
+
 export default function DrawingPage() {
     const canvasRef = useRef(null);
     const [drawing, setDrawing] = useState(false); // Track if the user is drawing
@@ -84,7 +93,9 @@ export default function DrawingPage() {
                 />
                 <h1 className='header-title'> Doodlebob </h1>
             </header>
-
+            {/* Sidebar Content */}
+            <div className='sidebar'>
+            </div>
             {/* Main Content */}
             <div className='main-content'>
                 {/* Drawing Canvas */}
