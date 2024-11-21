@@ -1,0 +1,96 @@
+/* General body styles */
+body {
+    font-family: Arial, sans-serif; /* Set the font for the body to Arial or a sans-serif fallback */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+/* Full-screen container to hold the whole page content */
+.full-screen-container {
+    background-color: white; /* Set background color to white */
+    min-height: 100vh; /* Ensure the container takes up at least the full height of the viewport */
+    display: flex; /* Use flexbox to arrange child elements */
+    flex-direction: column; /* Arrange items in a vertical column */
+}
+
+/* Header styling */
+.header {
+    display: flex; /* Use flexbox layout */
+    align-items: center; /* Vertically align items to the center */
+    padding: 1%; /* Add padding inside the header */
+    background-color: #2C2A4A; /* Dark background color for the header */
+    position: sticky; /* Make the header sticky at the top of the page */
+    top: 0; /* Position the header at the top of the viewport */
+    z-index: 10; /* Ensure the header stays on top of other content when scrolling */
+}
+
+/* Title inside the header */
+.header-title {
+    margin-left: 10px; /* Add space between the logo and the title */
+    font-size: 24px; /* Set the font size for the title */
+    font-weight: bold; /* Make the title text bold */
+}
+
+/* Logo in the header */
+.header-logo {
+    width: 7%; /* Set the logo width to 7% of the parent container’s width */
+    height: auto; /* Maintain the aspect ratio of the logo */
+}
+
+/* Sidebar styling */
+.sidebar {
+    height: 100vh; /* Make the sidebar take up the full height of the viewport */
+    width: 250px; /* Set the sidebar width to 250px */
+    background-color: #2c3e50; /* Dark background color for the sidebar */
+    color: white; /* Set text color to white */
+    position: fixed; /* Fix the sidebar to the left side of the screen */
+    top: 0; /* Align it to the top of the screen */
+    left: 0; /* Align it to the left side of the screen */
+    padding-top: 20px; /* Add padding at the top inside the sidebar */
+    display: flex; /* Use flexbox for layout inside the sidebar */
+    flex-direction: column; /* Arrange the sidebar content in a vertical column */
+}
+
+/* Sidebar button styles */
+.sidebar-button {
+    background-color: #34495e; /* Set the background color for buttons */
+    color: white; /* Set button text color to white */
+    padding: 15px; /* Add padding around the button text */
+    margin: 10px 0; /* Add vertical margin between buttons */
+    border: none; /* Remove border around the button */
+    text-align: left; /* Align button text to the left */
+    font-size: 18px; /* Set font size for button text */
+    cursor: pointer; /* Change cursor to pointer when hovering over the button */
+    width: 100%; /* Make the button take up the full width of the sidebar */
+    border-radius: 5px; /* Round the corners of the button */
+    transition: background-color 0.3s; /* Add a smooth transition effect for background color */
+}
+
+/* Button hover effect */
+.sidebar-button:hover {
+    background-color: #1abc9c; /* Change the background color when the button is hovered over */
+}
+
+/* Main content area styling */
+.main-content {
+    display: flex; /* Use flexbox layout */
+    justify-content: flex-end; /* Align content to the right side */
+    align-items: center; /* Vertically center content */
+    height: 100vh; /* Make the content take up the full height of the viewport */
+    padding: 0 20px; /* Add horizontal padding inside the content */
+}
+
+/* Container for the canvas element */
+.canvas-container {
+    width: 80%; /* Set the container width to 80% of its parent */
+    height: 70%; /* Set the container height to 70% of its parent */
+    background-color: #f0f0f0; /* Set a light background color for the canvas container */
+    display: flex; /* Use flexbox layout */
+    justify-content: center; /* Horizontally center the canvas */
+    align-items: center; /* Vertically center the canvas */
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
