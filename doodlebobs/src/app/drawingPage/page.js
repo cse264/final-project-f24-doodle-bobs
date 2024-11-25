@@ -100,6 +100,15 @@ export default function DrawingPage() {
             </header>
             {/* Sidebar Content */}
             <div className='sidebar'>
+                <div className='sidebar-tool-container'>
+                    <div className="color-picker">
+                    <input type="color" id="colorInput" value="#ff0000"/>
+                        <div class="color-info">
+                            <p>HEX: <span id="hexValue">#ff0000</span></p>
+                            <p>RGB: <span id="rgbValue">rgb(255, 0, 0)</span></p>
+                        </div>
+                    </div>   
+                </div>             
                 <div className='sidebar-button-container'>
                     <button onClick={handleClick} className='sidebar-button'> Import Image </button>
                     <button onClick={handleClick} className='sidebar-button'> Post Doodle </button>
