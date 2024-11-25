@@ -9,7 +9,7 @@ import './drawingPage.css';
 
 /**Next steps
  * Undo and Redo: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
- * Color Wheel: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
+ * Color Wheel: 
  * Pen types and Sizes:
  *      * Fabric.js: https://dev.to/ziqinyeow/step-by-step-on-how-to-setup-fabricjs-in-the-nextjs-app-3hi3
  *      * Event Listeners, drawing logic, drawing functions, etc: https://www.geeksforgeeks.org/build-a-drawing-app-using-javascript/
@@ -129,8 +129,11 @@ export default function DrawingPage() {
                     <button onClick={handleClick} className='sidebar-button'> Placeholder 1 </button>
                     <button onClick={handleClick} className='sidebar-button'> Placeholder 2 </button>
                     <button onClick={handleClick} className='sidebar-button'> Placeholder 3 </button>
+                    <button onClick={handleClick} className='sidebar-button'> Import Image </button>
+                    <button onClick={handleClick} className='sidebar-button'> Post Doodle </button>
+                    <button onClick={handleClick} className='sidebar-button'> Save To Local System </button>
                 </div>
-                <button onClick={handleClick} className='share-button'> Post Doodle</button>
+                <button onClick={handleClick} className='share-button'> Exit </button>
             </div>
             {/* Main Content */}
             <div className='main-content'>
