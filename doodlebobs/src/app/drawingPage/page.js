@@ -20,6 +20,8 @@ export default function DrawingPage() {
     const canvasRef = useRef(null);
     const [drawing, setDrawing] = useState(false); // Track if the user is drawing
     const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
+    const [image, setImage] = useState();
+    const router = useRouter();
 
     // Function to update canvas size based on its container's dimensions
     const updateCanvasSize = () => {
@@ -37,7 +39,7 @@ export default function DrawingPage() {
     // Run updateCanvasSize on mount and whenever window is resized
     useEffect(() => {
         updateCanvasSize(); // Update canvas size when component mounts
-        
+
         // Add event listener to update size on window resize
         window.addEventListener('resize', updateCanvasSize);
 
@@ -46,13 +48,13 @@ export default function DrawingPage() {
             window.removeEventListener('resize', updateCanvasSize);
         };
     }, []);
-    
+
     // Handle drawing logic on the canvas
     const startDrawing = (e) => {
         setDrawing(true);
         setLastPosition(getCoordinates(e));
     };
-    
+
     const stopDrawing = () => {
         setDrawing(false);
     };
@@ -61,12 +63,12 @@ export default function DrawingPage() {
         if (!drawing) return;
         const ctx = canvasRef.current.getContext('2d');
         const { x, y } = getCoordinates(e);
-        
+
         ctx.beginPath();
         ctx.moveTo(lastPosition.x, lastPosition.y);
         ctx.lineTo(x, y);
         ctx.stroke();
-        
+
         setLastPosition({ x, y });
     };
 
@@ -81,9 +83,24 @@ export default function DrawingPage() {
     const handleClick = () => {
         alert('Button clicked!');
     };
-    
-    
-    
+    const goHome = () => {
+        router.push('/homePage');
+    };
+    const handlePhotoUpload = (event) => {
+        event.preventDefault();
+        const file = event.target.fileUpload.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        if (allowedTypes.includes((file.type))) {
+            setImage(file);
+        }
+        else{
+            alert('Only allowed to upload jpeg and png. Please select a valid image.')
+        }
+    };
+
+
+
+
 
     return (
         <div className='full-screen-container'>
@@ -95,12 +112,20 @@ export default function DrawingPage() {
                     alt='App Logo'
                     width={100}
                     height={100}
+                    onClick={goHome}
                 />
                 <h1 className='header-title'> Doodlebob </h1>
             </header>
             {/* Sidebar Content */}
             <div className='sidebar'>
                 <div className='sidebar-button-container'>
+                    <form action={handlePhotoUpload} method="post" enctype="multipart/form-data">
+                        <label for="fileUpload">Choose a file:</label>
+                        <input type="file" id="fileUpload" name="fileUpload" />
+                        {/* add content saying if file not specific type then cannot upload*/}
+                        <br></br>
+                        <button onClick={handlePhotoUpload} type="submit">Upload</button>
+                    </form>
                     <button onClick={handleClick} className='sidebar-button'> Placeholder 1 </button>
                     <button onClick={handleClick} className='sidebar-button'> Placeholder 2 </button>
                     <button onClick={handleClick} className='sidebar-button'> Placeholder 3 </button>
