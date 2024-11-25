@@ -9,13 +9,14 @@ body {
 /* Full-screen container to hold the whole page content */
 .full-screen-container {
     background-color: white; /* Set background color to white */
-    height: 100%;
+    height: 100vh;
     display: flex; /* Use flexbox to arrange child elements */
     flex-direction: column; /* Arrange items in a vertical column */
 }
 
 /* Header styling */
 .header {
+    height: 10vh;
     display: flex; /* Use flexbox layout */
     align-items: center; /* Vertically align items to the center */
     padding: 1%; /* Add padding inside the header */
@@ -34,42 +35,68 @@ body {
 
 /* Logo in the header */
 .header-logo {
-    width: 7%; /* Set the logo width to 7% of the parent container’s width */
+    width: 7vw; /* Set the logo width to 7% of the parent container’s width */
     height: auto; /* Maintain the aspect ratio of the logo */
 }
 
-/* Sidebar styling */
 .sidebar {
-    height: 100%; /* Make the sidebar take up the full height of the viewport */
-    width: 20%; /* Set the sidebar width to 250px */
-    background-color: #4F518C; /* Dark background color for the sidebar */
-    color: white; /* Set text color to white */
-    position: fixed; /* Fix the sidebar to the left side of the screen */
-    top: 0; /* Align it to the top of the screen */
-    left: 0; /* Align it to the left side of the screen */
-    padding-top: 20px; /* Add padding at the top inside the sidebar */
-    display: flex; /* Use flexbox for layout inside the sidebar */
-    flex-direction: column; /* Arrange the sidebar content in a vertical column */
+    height: 100vh; /* Full height of the viewport */
+    width: 20%; /* Sidebar width */
+    background-color: #4F518C; /* Sidebar background color */
+    color: white; /* Sidebar text color */
+    position: fixed; /* Fix it on the left */
+    bottom: 0; /* Align the sidebar to the bottom */
+    left: 0; /* Align to the left */
+    padding-bottom: 20px; /* Padding at the bottom */
+    display: flex; /* Flexbox for sidebar layout */
+    flex-direction: column; /* Arrange items vertically */ 
+    align-items: center; /* Center buttons horizontally */
+}
+
+/* Container for buttons - This centers them vertically */
+.sidebar-button-container {
+    flex-grow: 1; /* Allow this section to take up available space */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Vertically center the buttons */
+    align-items: center; /* Center buttons horizontally */    
 }
 
 /* Sidebar button styles */
 .sidebar-button {
-    background-color: #34495e; /* Set the background color for buttons */
-    color: white; /* Set button text color to white */
-    padding: 15px; /* Add padding around the button text */
-    margin: 10px 0; /* Add vertical margin between buttons */
-    border: none; /* Remove border around the button */
-    text-align: left; /* Align button text to the left */
-    font-size: 18px; /* Set font size for button text */
-    cursor: pointer; /* Change cursor to pointer when hovering over the button */
-    width: 100%; /* Make the button take up the full width of the sidebar */
-    border-radius: 5px; /* Round the corners of the button */
-    transition: background-color 0.3s; /* Add a smooth transition effect for background color */
+    background-color: #DABFFF; /* Button background color */
+    color: black; /* Button text color */
+    padding: 12px; /* Padding around text */
+    margin: 5px 0; /* Vertical margin between buttons */
+    border: #2C2A4A; /* Button border color */
+    border-style: solid;
+    text-align: center; /* Center align text */
+    font-size: 18px; /* Button text size */
+    cursor: pointer; /* Pointer cursor on hover */
+    width: 70%; /* Button width */
+    border-radius: 40px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth hover transition */
+}
+
+.share-button {
+    background-color: #DABFFF; /* Button background color */
+    color: black; /* Button text color */
+    padding: 15px; /* Padding around text */
+    margin: 10px 0; /* Vertical margin between buttons */
+    border: #2C2A4A; /* Button border color */
+    border-style: solid;
+    text-align: center; /* Center align text */
+    font-size: 18px; /* Button text size */
+    cursor: pointer; /* Pointer cursor on hover */
+    width: 95%; /* Button width */
+    border-radius: 40px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth hover transition */
 }
 
 /* Button hover effect */
 .sidebar-button:hover {
-    background-color: #1abc9c; /* Change the background color when the button is hovered over */
+    background-color: #7FDEFF; /* Change the background color when the button is hovered over */
 }
 
 /* Main content area styling */
@@ -77,7 +104,7 @@ body {
     display: flex; /* Use flexbox layout */
     justify-content: flex-end; /* Align content to the right side */
     align-items: center; /* Vertically center content */
-    height: 90vh; /* Make the content take up the full height of the viewport */
+    height: 95vh; /* Make the content take up the full height of the viewport */
     padding: 0 20px; /* Add horizontal padding inside the content */
 }
 

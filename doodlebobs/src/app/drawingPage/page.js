@@ -77,6 +77,11 @@ export default function DrawingPage() {
         const y = e.clientY - rect.top;   // Calculate the y-coordinate relative to the canvas
         return { x, y };
     };
+
+    const handleClick = () => {
+        alert('Button clicked!');
+    };
+    
     
     
 
@@ -95,6 +100,12 @@ export default function DrawingPage() {
             </header>
             {/* Sidebar Content */}
             <div className='sidebar'>
+                <div className='sidebar-button-container'>
+                    <button onClick={handleClick} className='sidebar-button'> Placeholder 1 </button>
+                    <button onClick={handleClick} className='sidebar-button'> Placeholder 2 </button>
+                    <button onClick={handleClick} className='sidebar-button'> Placeholder 3 </button>
+                </div>
+                <button onClick={handleClick} className='share-button'> Post Doodle</button>
             </div>
             {/* Main Content */}
             <div className='main-content'>
