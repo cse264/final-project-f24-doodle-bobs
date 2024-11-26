@@ -142,13 +142,31 @@ canvas {
 .size-picker input[type="range"] {
     width: 80%; /* Slider takes up 80% of the container */
     margin: 10px 0;
+    -webkit-appearance: none; 
+    background: #907AD6; /* Purple slider track */
+    height: 8px; /* Height of the slider track */
+    border-radius: 5px; /* Rounded edges for the track */
+    outline: none; /* Remove default outline */
+    cursor: pointer; /* Pointer cursor */
+}
+
+/* Styling the knob */
+.size-picker input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 16px; /* Width of the thumb */
+    height: 16px; /* Height of the thumb */
+    background: #DABFFF; /* Lighter purple thumb */
+    border-radius: 50%; /* Make the thumb circular */
+    cursor: pointer; /* Pointer cursor */
 }
 
 /* Display the selected size value next to the slider */
 .size-picker span {
     font-size: 1rem;
+    color: #907AD6; /* Purple text color */
+    font-weight: bold; /* Make the number bold */
 }
-
 
 /* Form container */
 .upload-form-container {
