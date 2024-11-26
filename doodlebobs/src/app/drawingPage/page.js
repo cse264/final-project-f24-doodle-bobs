@@ -25,6 +25,7 @@ export default function DrawingPage() {
     const [image, setImage] = useState();
     const [isClient, setIsClient] = useState(false); // Track client rendering
     const router = useRouter();
+    let savedImage = null; 
 
     // Ensure the component is only rendered on the client
     useEffect(() => {
@@ -36,12 +37,22 @@ export default function DrawingPage() {
         const canvas = canvasRef.current;
         const container = canvas.parentElement; // Get the canvas container
 
+        // Save the current canvas content
+        const ctx = canvas.getContext('2d');
+        const currentContent = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
         // Set the canvas resolution based on the container size
         const width = container.offsetWidth;
         const height = container.offsetHeight;
 
         canvas.width = width;  // Set the actual drawing resolution
         canvas.height = height; // Adjust the height for drawing
+
+        // Restore the saved content
+        ctx.putImageData(currentContent, 0, 0);
+
+        // Redraw the saved image
+        redrawImage(canvas, savedImage);
     };
 
     // Run updateCanvasSize on mount and whenever window is resized
@@ -103,6 +114,37 @@ export default function DrawingPage() {
         router.push('/homePage');
     };
 
+    // Function to redraw the image on the canvas
+    const redrawImage = (canvas, img) => {
+        if (!img) return; // If there's no image to redraw, exit early
+
+        const ctx = canvas.getContext('2d');
+
+        // Maintain aspect ratio while resizing image to fit canvas
+        const canvasAspect = canvas.width / canvas.height;
+        const imgAspect = img.width / img.height;
+
+        let drawWidth, drawHeight, offsetX, offsetY;
+
+        // Compare the aspect ratios to decide how to fit the image on the canvas
+        if (imgAspect > canvasAspect) {
+            // If the image is wider than the canvas:
+            drawWidth = canvas.width; // Fit the image width to the canvas width
+            drawHeight = canvas.width / imgAspect; // Scale the height to maintain aspect ratio
+            offsetX = 0; // No horizontal offset
+            offsetY = (canvas.height - drawHeight) / 2; //center image vertically
+        } else {
+            // If the image is taller than or the same aspect ratio as the canvas:
+            drawHeight = canvas.height; // Fit the image height to the canvas height
+            drawWidth = canvas.height * imgAspect; // Scale the width to maintain aspect ratio
+            offsetX = (canvas.width - drawWidth) / 2; // Center the image horizontally
+            offsetY = 0; // No vertical offset
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight); // Draw the image
+    };
+
     const handleFileUpload = (event) => {
         const file = event.target.files[0]; // Get the selected file
         const allowedTypes = ['image/jpeg', 'image/png']; // Allowed file types
@@ -113,32 +155,9 @@ export default function DrawingPage() {
                 const img = new window.Image(); // Create a new Image object
                 img.src = reader.result; // Set the source of the Image to the file content
                 img.onload = () => {
+                    savedImage = img; // Save the uploaded image object
                     const canvas = canvasRef.current;
-                    const ctx = canvas.getContext('2d');
-                
-                    // Clear the canvas
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                    // Maintain aspect ratio while resizing image to fit canvas
-                    const canvasAspect = canvas.width / canvas.height;
-                    const imgAspect = img.width / img.height;
-
-                    let drawWidth, drawHeight, offsetX, offsetY;
-
-                    if (imgAspect > canvasAspect) {
-                        drawWidth = canvas.width;
-                        drawHeight = canvas.width / imgAspect;
-                        offsetX = 0;
-                        offsetY = (canvas.height - drawHeight) / 2;
-                    } else {
-                        drawHeight = canvas.height;
-                        drawWidth = canvas.height * imgAspect;
-                        offsetX = (canvas.width - drawWidth) / 2;
-                        offsetY = 0;
-                    }
-
-                    // Draw the image onto the canvas
-                    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                    redrawImage(canvas, img); // Call redrawImage to draw the image
                 };
             };
             reader.readAsDataURL(file); // Convert the file to a Data URL (base64)
@@ -146,6 +165,33 @@ export default function DrawingPage() {
             alert('Only JPEG and PNG images are allowed. Please select a valid image.');
         }
     };
+
+    const saveToLocal = () => {
+        const canvas = canvasRef.current; // Reference the canvas element
+        canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob); // Create a URL for the Blob
+    
+            // Create a temp link element
+            const link = document.createElement('a');
+            link.href = url; // Set the link href to the Blob URL
+    
+            // Prompt the user for a file name
+            const fileName = prompt('Enter a file name for your doodle:', 'doodle.png');
+            if (!fileName) {
+                alert('File name is required to save the file.');
+                return;
+            }
+            link.download = fileName.endsWith('.png') ? fileName : `${fileName}.png`; // Add .png if not provided
+    
+            // Add the link to the document and trigger a click event
+            document.body.appendChild(link);
+            link.click();
+    
+            // Clean up
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url); // Free up memory
+        }, 'image/png');
+    };    
 
     const postDoodle = async () => {
         try {
@@ -218,7 +264,7 @@ export default function DrawingPage() {
                         onChange={handleFileUpload}
                     />
                     <button onClick={postDoodle} className='sidebar-button'> Post Doodle </button>
-                    <button onClick={handleClick} className='sidebar-button'> Save To Local System </button>
+                    <button onClick={saveToLocal} className='sidebar-button'> Save To Local System </button>
                 </div>
                 <button onClick={handleClick} className='sidebar-button'> Exit </button>
             </div>
