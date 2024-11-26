@@ -21,7 +21,13 @@ export default function DrawingPage() {
     const [drawing, setDrawing] = useState(false); // Track if the user is drawing
     const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
     const [image, setImage] = useState();
+    const [isClient, setIsClient] = useState(false); // Track client rendering
     const router = useRouter();
+
+    // Ensure the component is only rendered on the client
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     // Function to update canvas size based on its container's dimensions
     const updateCanvasSize = () => {
@@ -38,16 +44,18 @@ export default function DrawingPage() {
 
     // Run updateCanvasSize on mount and whenever window is resized
     useEffect(() => {
-        updateCanvasSize(); // Update canvas size when component mounts
+        if(isClient){
+            updateCanvasSize(); // Update canvas size when component mounts
 
-        // Add event listener to update size on window resize
-        window.addEventListener('resize', updateCanvasSize);
-
-        // Cleanup event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', updateCanvasSize);
-        };
-    }, []);
+            // Add event listener to update size on window resize
+            window.addEventListener('resize', updateCanvasSize);
+    
+            // Cleanup event listener on component unmount
+            return () => {
+                window.removeEventListener('resize', updateCanvasSize);
+            };
+        }
+    }, [isClient]);
 
     // Handle drawing logic on the canvas
     const startDrawing = (e) => {
@@ -86,21 +94,86 @@ export default function DrawingPage() {
     const goHome = () => {
         router.push('/homePage');
     };
-    const handlePhotoUpload = (event) => {
-        event.preventDefault();
-        const file = event.target.fileUpload.files[0];
-        const allowedTypes = ['image/jpeg', 'image/png'];
-        if (allowedTypes.includes((file.type))) {
-            setImage(file);
-        }
-        else{
-            alert('Only allowed to upload jpeg and png. Please select a valid image.')
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0]; // Get the selected file
+        const allowedTypes = ['image/jpeg', 'image/png']; // Allowed file types
+
+        if (file && allowedTypes.includes(file.type)) {
+            const reader = new FileReader(); // Create a new FileReader
+            reader.onload = () => {
+                const img = new window.Image(); // Create a new Image object
+                img.src = reader.result; // Set the source of the Image to the file content
+                img.onload = () => {
+                    const canvas = canvasRef.current;
+                    const ctx = canvas.getContext('2d');
+                
+                    // Clear the canvas
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    // Maintain aspect ratio while resizing image to fit canvas
+                    const canvasAspect = canvas.width / canvas.height;
+                    const imgAspect = img.width / img.height;
+
+                    let drawWidth, drawHeight, offsetX, offsetY;
+
+                    if (imgAspect > canvasAspect) {
+                        drawWidth = canvas.width;
+                        drawHeight = canvas.width / imgAspect;
+                        offsetX = 0;
+                        offsetY = (canvas.height - drawHeight) / 2;
+                    } else {
+                        drawHeight = canvas.height;
+                        drawWidth = canvas.height * imgAspect;
+                        offsetX = (canvas.width - drawWidth) / 2;
+                        offsetY = 0;
+                    }
+
+                    // Draw the image onto the canvas
+                    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                };
+            };
+            reader.readAsDataURL(file); // Convert the file to a Data URL (base64)
+        } else {
+            alert('Only JPEG and PNG images are allowed. Please select a valid image.');
         }
     };
 
+    const postDoodle = async () => {
+        try {
+            const canvas = canvasRef.current;
+            const imageData = canvas.toDataURL('image/png'); // Get canvas content as Base64
+            const title = prompt('Enter a title for your doodle:'); // Prompt the user for a title
 
+            if (!title) {
+                alert('Title is required to post a doodle.'); //if no title
+                return;
+            }
+            
+            //fetch to that route 
+            const response = await fetch('http://localhost:3000/api/drawingPage', { // Updated route
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title, imageData }),
+            });            
 
+            if (response.ok) { //if successful
+                alert('Doodle posted successfully!');
+            } else { //if fail
+                const errorData = await response.json();
+                alert(`Failed to post doodle: ${errorData.error}`);
+            }
+        } catch (error) {
+            console.error('Error posting doodle:', error);
+            alert('An error occurred while posting the doodle.');
+        }
+    };
 
+    if (!isClient) {
+        return null; // Avoid rendering on the server
+    }
 
     return (
         <div className='full-screen-container'>
@@ -119,18 +192,18 @@ export default function DrawingPage() {
             {/* Sidebar Content */}
             <div className='sidebar'>
                 <div className='sidebar-button-container'>
-                    <form action={handlePhotoUpload} method="post" enctype="multipart/form-data">
-                        <label for="fileUpload">Choose a file:</label>
-                        <input type="file" id="fileUpload" name="fileUpload" />
-                        {/* add content saying if file not specific type then cannot upload*/}
-                        <br></br>
-                        <button onClick={handlePhotoUpload} type="submit">Upload</button>
-                    </form>
-                    <button onClick={handleClick} className='sidebar-button'> Placeholder 1 </button>
-                    <button onClick={handleClick} className='sidebar-button'> Placeholder 2 </button>
-                    <button onClick={handleClick} className='sidebar-button'> Placeholder 3 </button>
-                    <button onClick={handleClick} className='sidebar-button'> Import Image </button>
-                    <button onClick={handleClick} className='sidebar-button'> Post Doodle </button>
+                    {/* Import Image Button */}
+                    <label htmlFor="fileUpload" className="sidebar-button">
+                        Import Image
+                    </label>
+                    <input
+                        type="file"
+                        id="fileUpload"
+                        name="fileUpload"
+                        className="hidden-file-input"
+                        onChange={handleFileUpload}
+                    />
+                    <button onClick={postDoodle} className='sidebar-button'> Post Doodle </button>
                     <button onClick={handleClick} className='sidebar-button'> Save To Local System </button>
                 </div>
                 <button onClick={handleClick} className='share-button'> Exit </button>

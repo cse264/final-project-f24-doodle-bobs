@@ -16,7 +16,6 @@ export async function GET() {
     }
 }
 
-
 // POST route to create a new doodle
 export async function POST(req) {
     try {
@@ -73,5 +72,5 @@ export async function POST(req) {
             { error: 'Failed to create doodle', details: error.message },
             { status: 500 }
         );
-    }
-}
+    } 
+} 

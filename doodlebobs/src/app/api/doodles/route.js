@@ -15,7 +15,6 @@ export async function GET() {
     }
 }
 
-
 // POST route to create a new doodle
 export async function POST(req) {
     try {
@@ -73,7 +72,7 @@ export async function POST(req) {
             { status: 500 }
         );
     }
-}
+} 
 
 export async function DELETE(req) {
     const { searchParams } = new URL(req.url); // Parse the URL

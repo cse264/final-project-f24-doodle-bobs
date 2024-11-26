@@ -7,8 +7,6 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 // import { flushSync } from 'react-dom';
 
-
-
 // GET /homepage route
 export async function POST() {
     try {

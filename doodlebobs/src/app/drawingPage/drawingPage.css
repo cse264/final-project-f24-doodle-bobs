@@ -95,6 +95,11 @@ body {
     transition: background-color 0.3s; /* Smooth hover transition */
 }
 
+/* File upload styles */
+.hidden-file-input {
+    display: none; /* Hides the actual file input element */
+}
+
 /* Button hover effect */
 .sidebar-button:hover {
     background-color: #7FDEFF; /* Change the background color when the button is hovered over */
