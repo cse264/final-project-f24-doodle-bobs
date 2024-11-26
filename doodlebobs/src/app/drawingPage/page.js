@@ -66,6 +66,8 @@ export default function DrawingPage() {
         const ctx = canvasRef.current.getContext('2d');
         const { x, y } = getCoordinates(e);
 
+        ctx.strokeStyle = color; // Apply the selected color for drawing
+
         ctx.beginPath();
         ctx.moveTo(lastPosition.x, lastPosition.y);
         ctx.lineTo(x, y);
