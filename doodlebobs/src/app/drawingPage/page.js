@@ -18,7 +18,9 @@ import './drawingPage.css';
 
 export default function DrawingPage() {
     const canvasRef = useRef(null);
+    const uploadRef = useRef(null);
     const [drawing, setDrawing] = useState(false); // Track if the user is drawing
+    const [color, setColor] = useState('#ffffff');
     const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
     const [image, setImage] = useState();
     const router = useRouter();
@@ -72,6 +74,10 @@ export default function DrawingPage() {
         setLastPosition({ x, y });
     };
 
+    const handleColorChange = (e) => {
+        setColor(e.target.value); // Update the color state when the user selects a new color
+    };
+
     const getCoordinates = (e) => {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect(); // Get the canvas position on the page
@@ -86,17 +92,41 @@ export default function DrawingPage() {
     const goHome = () => {
         router.push('/homePage');
     };
+
     const handlePhotoUpload = (event) => {
         event.preventDefault();
-        const file = event.target.fileUpload.files[0];
+        const file = uploadRef.current.files[0]; // Access the file input via the ref
+    
         const allowedTypes = ['image/jpeg', 'image/png'];
-        if (allowedTypes.includes((file.type))) {
-            setImage(file);
-        }
-        else{
-            alert('Only allowed to upload jpeg and png. Please select a valid image.')
+        if (allowedTypes.includes(file.type)) {
+            setImage(file); // Store the file in state
+        } else {
+            alert('Only allowed to upload jpeg and png. Please select a valid image.');
         }
     };
+
+    // Draw the uploaded image on the canvas if it's available
+    const drawImageOnCanvas = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+    
+        if (image) {
+            const imgUrl = URL.createObjectURL(image); // Create a URL from the uploaded file
+            const img = new window.Image();  // Use the native Image constructor
+            img.src = imgUrl;
+            img.onload = () => {
+                // Clear the canvas before drawing
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Draw the image on the canvas
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        }
+    };
+
+    // Run drawImageOnCanvas whenever the image state changes
+    useEffect(() => {
+        drawImageOnCanvas();
+    }, [image]);
 
 
 
@@ -120,29 +150,23 @@ export default function DrawingPage() {
             <div className='sidebar'>
                 <div className='sidebar-tool-container'>
                     <div className="color-picker">
-                    <input type="color" id="colorInput" value="#ff0000"/>
-                        <div class="color-info">
-                            <p>HEX: <span id="hexValue">#ff0000</span></p>
-                            <p>RGB: <span id="rgbValue">rgb(255, 0, 0)</span></p>
-                        </div>
+                    <input type="color" id="colorInput" value={color} onChange={handleColorChange}/>
+                        <div className="color-info"></div>
                     </div>   
                 </div>             
                 <div className='sidebar-button-container'>
-                    <form action={handlePhotoUpload} method="post" enctype="multipart/form-data">
-                        <label for="fileUpload">Choose a file:</label>
-                        <input type="file" id="fileUpload" name="fileUpload" />
-                        {/* add content saying if file not specific type then cannot upload*/}
-                        <br></br>
-                        <button onClick={handlePhotoUpload} type="submit">Upload</button>
+                    <form
+                        className='upload-form-container'
+                        onSubmit={handlePhotoUpload}
+                    >
+                        <label htmlFor="fileUpload">Choose a file:</label>
+                        <input type="file" id="fileUpload" name="fileUpload" ref={uploadRef} />
+                        <button className='sidebar-button' type="submit">Upload Image</button>
                     </form>
-                    <button onClick={handleClick} className='sidebar-button'> Placeholder 1 </button>
-                    <button onClick={handleClick} className='sidebar-button'> Placeholder 2 </button>
-                    <button onClick={handleClick} className='sidebar-button'> Placeholder 3 </button>
-                    <button onClick={handleClick} className='sidebar-button'> Import Image </button>
                     <button onClick={handleClick} className='sidebar-button'> Post Doodle </button>
                     <button onClick={handleClick} className='sidebar-button'> Save To Local System </button>
                 </div>
-                <button onClick={handleClick} className='share-button'> Exit </button>
+                <button onClick={handleClick} className='sidebar-button'> Exit </button>
             </div>
             {/* Main Content */}
             <div className='main-content'>

@@ -1,9 +1,9 @@
 /* General body styles */
 body {
-    font-family: Arial, sans-serif; /* Set the font for the body to Arial or a sans-serif fallback */
+    font-family: roboto; /* Set the font for the body to Arial or a sans-serif fallback */
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
-    overflow-y: hidden;
+    overflow-y: hidden; /* Prevent unwanted scrolling*/
 }
 
 /* Full-screen container to hold the whole page content */
@@ -16,7 +16,7 @@ body {
 
 /* Header styling */
 .header {
-    height: 10vh;
+    height: 12vh;
     display: flex; /* Use flexbox layout */
     align-items: center; /* Vertically align items to the center */
     padding: 1%; /* Add padding inside the header */
@@ -41,7 +41,7 @@ body {
 }
 
 .sidebar {
-    height: 100vh; /* Full height of the viewport */
+    height: 98vh; /* Full height of the viewport */
     width: 20%; /* Sidebar width */
     background-color: #4F518C; /* Sidebar background color */
     color: white; /* Sidebar text color */
@@ -62,6 +62,7 @@ body {
     justify-content: center; /* Vertically bottom the buttons */
     align-items: center; /* Center buttons horizontally */  
 }
+
 /* Container for buttons - This centers them vertically */
 .sidebar-button-container {
     flex-grow: 1; /* Allow this section to take up available space */
@@ -81,27 +82,13 @@ body {
     border: #2C2A4A; /* Button border color */
     border-style: solid;
     text-align: center; /* Center align text */
-    font-size: 18px; /* Button text size */
+    font-size: 2vh; /* Button text size */
     cursor: pointer; /* Pointer cursor on hover */
     width: 70%; /* Button width */
     border-radius: 40px; /* Rounded corners */
     transition: background-color 0.3s; /* Smooth hover transition */
 }
 
-.share-button {
-    background-color: #DABFFF; /* Button background color */
-    color: black; /* Button text color */
-    padding: 15px; /* Padding around text */
-    margin: 10px 0; /* Vertical margin between buttons */
-    border: #2C2A4A; /* Button border color */
-    border-style: solid;
-    text-align: center; /* Center align text */
-    font-size: 18px; /* Button text size */
-    cursor: pointer; /* Pointer cursor on hover */
-    width: 95%; /* Button width */
-    border-radius: 40px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth hover transition */
-}
 
 /* Button hover effect */
 .sidebar-button:hover {
@@ -136,11 +123,32 @@ canvas {
     padding: 20px;
     border-radius: 8px;
     text-align: center;
+    width: 80%;
 }
 .color-info {
     margin-top: 20px;
 }
-p {
-    margin: 5px 0;
-    font-size: 16px;
+
+/* Form container */
+.upload-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensure form is as wide as the container */
+}
+
+/* File input styling */
+#fileUpload {
+    background-color: #DABFFF; /* Same background color as buttons */
+    color: black; /* Text color */
+    padding: 12px; /* Padding around the input */
+    margin: 5px 0; /* Margin to separate from other elements */
+    border: #2C2A4A; /* Border color */
+    border-style: solid;
+    font-size: 16px; /* Slightly smaller font size than the buttons */
+    border-radius: 40px; /* Rounded corners like the buttons */
+    width: 70%; /* Same width as the buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition effect */
 }
