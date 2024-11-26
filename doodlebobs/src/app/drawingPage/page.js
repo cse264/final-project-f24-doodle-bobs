@@ -18,7 +18,9 @@ import './drawingPage.css';
 
 export default function DrawingPage() {
     const canvasRef = useRef(null);
+    const uploadRef = useRef(null);
     const [drawing, setDrawing] = useState(false); // Track if the user is drawing
+    const [color, setColor] = useState('#ffffff');
     const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
     const [image, setImage] = useState();
     const [isClient, setIsClient] = useState(false); // Track client rendering
@@ -72,12 +74,18 @@ export default function DrawingPage() {
         const ctx = canvasRef.current.getContext('2d');
         const { x, y } = getCoordinates(e);
 
+        ctx.strokeStyle = color; // Apply the selected color for drawing
+
         ctx.beginPath();
         ctx.moveTo(lastPosition.x, lastPosition.y);
         ctx.lineTo(x, y);
         ctx.stroke();
 
         setLastPosition({ x, y });
+    };
+
+    const handleColorChange = (e) => {
+        setColor(e.target.value); // Update the color state when the user selects a new color
     };
 
     const getCoordinates = (e) => {
@@ -191,6 +199,12 @@ export default function DrawingPage() {
             </header>
             {/* Sidebar Content */}
             <div className='sidebar'>
+                <div className='sidebar-tool-container'>
+                    <div className="color-picker">
+                    <input type="color" id="colorInput" value={color} onChange={handleColorChange}/>
+                        <div className="color-info"></div>
+                    </div>   
+                </div>             
                 <div className='sidebar-button-container'>
                     {/* Import Image Button */}
                     <label htmlFor="fileUpload" className="sidebar-button">
@@ -206,7 +220,7 @@ export default function DrawingPage() {
                     <button onClick={postDoodle} className='sidebar-button'> Post Doodle </button>
                     <button onClick={handleClick} className='sidebar-button'> Save To Local System </button>
                 </div>
-                <button onClick={handleClick} className='share-button'> Exit </button>
+                <button onClick={handleClick} className='sidebar-button'> Exit </button>
             </div>
             {/* Main Content */}
             <div className='main-content'>
