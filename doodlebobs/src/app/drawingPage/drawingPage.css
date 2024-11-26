@@ -29,7 +29,7 @@ body {
 /* Title inside the header */
 .header-title {
     margin-left: 10px; /* Add space between the logo and the title */
-    font-size: 24px; /* Set the font size for the title */
+    font-size: 2rem; /* Set the font size for the title */
     font-weight: bold; /* Make the title text bold */
     color: white;
 }
@@ -82,7 +82,7 @@ body {
     border: #2C2A4A; /* Button border color */
     border-style: solid;
     text-align: center; /* Center align text */
-    font-size: 2vh; /* Button text size */
+    font-size: 1rem; /* Button text size */
     cursor: pointer; /* Pointer cursor on hover */
     width: 70%; /* Button width */
     border-radius: 40px; /* Rounded corners */
@@ -130,9 +130,25 @@ canvas {
     text-align: center;
     width: 80%;
 }
-.color-info {
-    margin-top: 20px;
+
+/* .size-picker Container */
+.size-picker {
+    padding: 10px;
+    text-align: center;
+    width: 100%; /* Take full width of the container */
 }
+
+/* Range input slider */
+.size-picker input[type="range"] {
+    width: 80%; /* Slider takes up 80% of the container */
+    margin: 10px 0;
+}
+
+/* Display the selected size value next to the slider */
+.size-picker span {
+    font-size: 1rem;
+}
+
 
 /* Form container */
 .upload-form-container {
@@ -151,7 +167,7 @@ canvas {
     margin: 5px 0; /* Margin to separate from other elements */
     border: #2C2A4A; /* Border color */
     border-style: solid;
-    font-size: 16px; /* Slightly smaller font size than the buttons */
+    font-size: 1rem; /* Slightly smaller font size than the buttons */
     border-radius: 40px; /* Rounded corners like the buttons */
     width: 70%; /* Same width as the buttons */
     cursor: pointer; /* Pointer cursor on hover */

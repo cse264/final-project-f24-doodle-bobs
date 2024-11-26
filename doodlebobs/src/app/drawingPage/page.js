@@ -9,7 +9,6 @@ import './drawingPage.css';
 
 /**Next steps
  * Undo and Redo: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
- * Color Wheel: 
  * Pen types and Sizes:
  *      * Fabric.js: https://dev.to/ziqinyeow/step-by-step-on-how-to-setup-fabricjs-in-the-nextjs-app-3hi3
  *      * Event Listeners, drawing logic, drawing functions, etc: https://www.geeksforgeeks.org/build-a-drawing-app-using-javascript/
@@ -18,11 +17,10 @@ import './drawingPage.css';
 
 export default function DrawingPage() {
     const canvasRef = useRef(null);
-    const uploadRef = useRef(null);
     const [drawing, setDrawing] = useState(false); // Track if the user is drawing
-    const [color, setColor] = useState('#ffffff');
+    const [color, setColor] = useState('#ffffff')    
+    const [size, setSize] = useState(1);
     const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
-    const [image, setImage] = useState();
     const [isClient, setIsClient] = useState(false); // Track client rendering
     const router = useRouter();
     let savedImage = null; 
@@ -86,6 +84,7 @@ export default function DrawingPage() {
         const { x, y } = getCoordinates(e);
 
         ctx.strokeStyle = color; // Apply the selected color for drawing
+        ctx.lineWidth = size; //Apply the selected size for drawing
 
         ctx.beginPath();
         ctx.moveTo(lastPosition.x, lastPosition.y);
@@ -97,6 +96,10 @@ export default function DrawingPage() {
 
     const handleColorChange = (e) => {
         setColor(e.target.value); // Update the color state when the user selects a new color
+    };
+
+    const handleSizeChange = (e) => {
+        setSize(parseInt(e.target.value)); // Update the size state when the user selects a new size
     };
 
     const getCoordinates = (e) => {
@@ -247,9 +250,20 @@ export default function DrawingPage() {
             <div className='sidebar'>
                 <div className='sidebar-tool-container'>
                     <div className="color-picker">
-                    <input type="color" id="colorInput" value={color} onChange={handleColorChange}/>
-                        <div className="color-info"></div>
+                        <input type="color" id="colorInput" value={color} onChange={handleColorChange}/>
                     </div>   
+                    <div className="size-picker">
+                        <span>{size}</span> {/* Display the selected size */}
+                        <input 
+                            type="range" 
+                            id="sizeInput" 
+                            min="1" 
+                            max="20" 
+                            value={size} 
+                            onChange={handleSizeChange} 
+                            step="1"
+                        />
+                    </div> 
                 </div>             
                 <div className='sidebar-button-container'>
                     {/* Import Image Button */}
