@@ -1,4 +1,4 @@
-// app/drawingPage/page.js
+// app/homePage/page.js
 
 'use client'; // Make sure this is at the top to enable client-side rendering
 
@@ -7,18 +7,10 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import './homePage.css';
 
-/**Next steps
- * Undo and Redo: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
- * Color Wheel: https://www.codicode.com/art/undo_and_redo_to_the_html5_canvas.aspx
- * Pen types and Sizes:
- *      * Fabric.js: https://dev.to/ziqinyeow/step-by-step-on-how-to-setup-fabricjs-in-the-nextjs-app-3hi3
- *      * Event Listeners, drawing logic, drawing functions, etc: https://www.geeksforgeeks.org/build-a-drawing-app-using-javascript/
- * Buttons: Import Image, Save Doodle, Post Doodle, Exit to home
- */
 
 export default function HomePage() {
     const canvasRef = useRef(null);
-
+    const router =useRouter();
 
     // Function to update canvas size based on its container's dimensions
     const updateCanvasSize = () => {
@@ -47,8 +39,8 @@ export default function HomePage() {
     }, []);
     
     
-    const handleClick = () => {
-        alert('Button clicked!');
+    const handleClick = () => { //takes you to the drawing page
+        router.push('/drawingPage') 
     };
     
     
