@@ -1,114 +1,175 @@
 /* General body styles */
 body {
-    font-family: Arial, sans-serif; /* Set the font for the body to Arial or a sans-serif fallback */
+    font-family: Arial, sans-serif; /* Set default font style */
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
-    overflow-y: hidden;
+    overflow: hidden; /* Avoid scrollbars on the entire page */
 }
 
 /* Full-screen container to hold the whole page content */
 .full-screen-container {
-    background-color: white; /* Set background color to white */
-    height: 100vh;
-    display: flex; /* Use flexbox to arrange child elements */
-    flex-direction: column; /* Arrange items in a vertical column */
+    background-color: white; /* Set the background color */
+    display: flex; /* Flexbox layout for horizontal alignment */
+    height: 100vh; /* Full viewport height */
 }
 
 /* Header styling */
 .header {
-    height: 10vh;
-    display: flex; /* Use flexbox layout */
-    align-items: center; /* Vertically align items to the center */
-    padding: 1%; /* Add padding inside the header */
-    background-color: #2C2A4A; /* Dark background color for the header */
-    position: sticky; /* Make the header sticky at the top of the page */
-    top: 0; /* Position the header at the top of the viewport */
-    z-index: 10; /* Ensure the header stays on top of other content when scrolling */
+    height: 10vh; /* Fixed height for the header */
+    display: flex; /* Flexbox layout for content alignment */
+    align-items: center; /* Center items vertically */
+    padding: 1%; /* Add padding for spacing */
+    background-color: #2C2A4A; /* Dark background color */
+    position: fixed; /* Make the header sticky */
+    top: 0; /* Fix it to the top of the page */
+    width: 100%; /* Full width */
+    z-index: 10; /* Ensure the header is above other elements */
 }
 
 /* Title inside the header */
 .header-title {
-    margin-left: 10px; /* Add space between the logo and the title */
-    font-size: 24px; /* Set the font size for the title */
-    font-weight: bold; /* Make the title text bold */
-    color: white;
+    margin-left: 10px; /* Add space between the logo and title */
+    font-size: 24px; /* Set font size for the title */
+    font-weight: bold; /* Make the title bold */
+    color: white; /* White text color */
 }
 
 /* Logo in the header */
 .header-logo {
-    width: 7vw; /* Set the logo width to 7% of the parent container’s width */
-    height: auto; /* Maintain the aspect ratio of the logo */
+    width: 7vw; /* Set logo width as a percentage of viewport width */
+    height: auto; /* Maintain aspect ratio */
 }
 
+/* Sidebar styling */
 .sidebar {
-    height: 100vh; /* Full height of the viewport */
-    width: 20%; /* Sidebar width */
+    height: calc(100vh - 10vh); /* Sidebar occupies the height below the header */
+    width: 20%; /* Fixed width for the sidebar */
     background-color: #4F518C; /* Sidebar background color */
     color: white; /* Sidebar text color */
-    position: fixed; /* Fix it on the left */
-    bottom: 0; /* Align the sidebar to the bottom */
-    left: 0; /* Align to the left */
-    padding-bottom: 20px; /* Padding at the bottom */
-    display: flex; /* Flexbox for sidebar layout */
-    flex-direction: column; /* Arrange items vertically */ 
-    align-items: center; /* Center buttons horizontally */
+    position: fixed; /* Fix it to the left side */
+    top: 10vh; /* Start below the header */
+    left: 0; /* Align to the left edge */
+    display: flex; /* Flexbox layout for alignment */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
 }
 
-/* Container for buttons - This centers them vertically */
+/* Button container inside the sidebar */
 .sidebar-button-container {
-    flex-grow: 1; /* Allow this section to take up available space */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Vertically center the buttons */
-    align-items: center; /* Center buttons horizontally */    
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Stack buttons vertically */
+    justify-content: center; /* Center buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    width: 100%; /* Full width of the sidebar */
 }
 
 /* Sidebar button styles */
 .sidebar-button {
-    background-color: #DABFFF; /* Button background color */
-    color: black; /* Button text color */
-    padding: 30px; /* Padding around text */
-    margin: 10px 0; /* Vertical margin between buttons */
-    border: #2C2A4A; /* Button border color */
-    border-style: solid;
-    text-align: center; /* Center align text */
-    align-items: center; /* Center align text */
-    font-weight: bold; /*text is bold*/
-    font-size: 25px; /* Button text size */
+    background-color: #DABFFF; /* Light purple background */
+    color: black; /* Black text color */
+    padding: 20px 30px; /* Padding for a larger clickable area */
+    border: 2px solid #2C2A4A; /* Dark border */
+    border-radius: 40px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    font-size: 1rem; /* Font size */
     cursor: pointer; /* Pointer cursor on hover */
-    width: 70%; /* Button width */
-    border-radius: 10px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth hover transition */
+    width: 70%; /* Fixed width for buttons */
+    text-align: center; /* Center align text */
+    margin: 10px 0; /* Add vertical spacing between buttons */
+    transition: background-color 0.3s; /* Smooth color transition on hover */
 }
 
-
-
-/* Button hover effect */
+/* Hover effect for sidebar buttons */
 .sidebar-button:hover {
-    background-color: #7FDEFF; /* Change the background color when the button is hovered over */
+    background-color: #7FDEFF; /* Change background color on hover */
 }
 
 /* Main content area styling */
 .main-content {
-    display: flex; /* Use flexbox layout */
-    justify-content: flex-end; /* Align content to the right side */
-    align-items: center; /* Vertically center content */
-    height: 95vh; /* Make the content take up the full height of the viewport */
-    padding: 0 20px; /* Add horizontal padding inside the content */
+    margin-left: 20%; /* Leave space for the sidebar */
+    margin-top: 10vh; /* Account for header height */
+    padding: 20px; /* Add padding inside the content area */
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: flex-start; /* Align content to the top */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    height: calc(100vh - 10vh); /* Adjust height to exclude header */
+    box-sizing: border-box; /* Include padding and border in height/width calculations */
+    width: 80%; /* Occupy remaining width after sidebar */
 }
 
-/* Container for the canvas element */
-.canvas-container {
-    width: 80%; /* Set the container width to 80% of its parent */
-    height: 75%; /* Set the container height to 70% of its parent */
-    background-color: #f0f0f0; /* Set a light background color for the canvas container */
-    display: flex; /* Use flexbox layout */
-    justify-content: center; /* Horizontally center the canvas */
-    align-items: flex-start; /* Align canvas container to the top */
+/* Grid container for drawings */
+.grid-container {
+    display: grid; /* Grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid columns */
+    gap: 20px; /* Space between grid items */
+    width: 100%; /* Full width of the content area */
+    justify-items: center; /* Center grid items horizontally */
 }
 
-canvas {
-    width: 100%;
-    height: 100%;
+/* Individual grid items */
+.grid-item {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    background-color: #DABFFF; /* Light purple background */
+    padding: 15px; /* Padding inside the grid item */
+    border: 3px solid #4F518C; /* Purple border */
+    border-radius: 12px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    width: 100%; /* Full width of grid column */
+    max-width: 400px; /* Limit maximum width */
+}
+
+/* Styling for doodle images */
+.doodle-image {
+    max-width: 100%; /* Scale down to fit container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 4px; /* Slightly rounded corners */
+}
+
+/* Title and button container */
+.doodle-title-container {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Stack title and button vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    width: 100%; /* Full width */
+    margin-top: 10px; /* Space above the title */
+}
+
+/* Title styling */
+.doodle-title {
+    font-size: 16px; /* Font size */
+    color: #2C2A4A; /* Dark blue text color */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Space below the title */
+}
+
+/* Download button styling */
+.download-button {
+    padding: 10px 20px; /* Padding for button */
+    font-size: 0.9rem; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: black; /* Black text color */
+    background-color: #DABFFF; /* Light purple background */
+    border: 2px solid #4F518C; /* Purple border */
+    border-radius: 40px; /* Fully rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth color transition on hover */
+    text-align: center; /* Center align text */
+}
+
+/* Hover effect for download button */
+.download-button:hover {
+    background-color: #7FDEFF; /* Change background color on hover */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Single-column layout on smaller screens */
+    }
 }

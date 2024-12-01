@@ -1,6 +1,6 @@
 // app/drawingPage/page.js
 
-'use client'; // Make sure this is at the top to enable client-side rendering
+'use client'; 
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -280,7 +280,6 @@ export default function DrawingPage() {
                     <button onClick={postDoodle} className='sidebar-button'> Post Doodle </button>
                     <button onClick={saveToLocal} className='sidebar-button'> Save To Local System </button>
                 </div>
-                <button onClick={handleClick} className='sidebar-button'> Exit </button>
             </div>
             {/* Main Content */}
             <div className='main-content'>

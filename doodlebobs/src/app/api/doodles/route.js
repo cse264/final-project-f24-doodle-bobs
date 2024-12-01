@@ -94,14 +94,6 @@ export async function DELETE(req) {
     }
 
     try {
-        /* //Placeholder test session key waiting for robert
-        // Validate the session key (only admins can delete)
-        if (!validateAdminSessionKey(sessionKey)) {
-            return NextResponse.json(
-                { error: 'Unauthorized access' },
-                { status: 403 }
-            );
-        } */
         // Check the session key 
         const adminSessionKey = process.env.ADMIN_SESSION_KEY;
         if (sessionKey.trim() !== adminSessionKey.trim()) {
