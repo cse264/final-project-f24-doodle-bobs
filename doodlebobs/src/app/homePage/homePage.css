@@ -9,8 +9,9 @@ body {
 /* Full-screen container to hold the whole page content */
 .full-screen-container {
     background-color: white; /* Set the background color */
-    display: flex; /* Flexbox layout for horizontal alignment */
     height: 100vh; /* Full viewport height */
+    display: flex; /* Flexbox layout for horizontal alignment */
+    flex-direction: column; /* Arrange items in a vertical column */
 }
 
 /* Header styling */
