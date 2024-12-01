@@ -40,18 +40,19 @@ body {
     height: auto; /* Maintain the aspect ratio of the logo */
 }
 
+/* Sidebar styling */
 .sidebar {
-    height: 98vh; /* Full height of the viewport */
-    width: 20%; /* Sidebar width */
+    height: calc(100vh - 10vh); /* Sidebar occupies the height below the header */
+    width: 20%; /* Fixed width for the sidebar */
     background-color: #4F518C; /* Sidebar background color */
     color: white; /* Sidebar text color */
-    position: fixed; /* Fix it on the left */
-    bottom: 0; /* Align the sidebar to the bottom */
-    left: 0; /* Align to the left */
-    padding-bottom: 20px; /* Padding at the bottom */
-    display: flex; /* Flexbox for sidebar layout */
-    flex-direction: column; /* Arrange items vertically */ 
-    align-items: center; /* Center buttons horizontally */
+    position: fixed; /* Fix it to the left side */
+    top: 10vh; /* Start below the header */
+    left: 0; /* Align to the left edge */
+    display: flex; /* Flexbox layout for alignment */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
 }
 
 .sidebar-tool-container{
@@ -63,14 +64,13 @@ body {
     align-items: center; /* Center buttons horizontally */  
 }
 
-/* Container for buttons - This centers them vertically */
+/* Button container inside the sidebar */
 .sidebar-button-container {
-    flex-grow: 1; /* Allow this section to take up available space */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* Vertically bottom the buttons */
-    align-items: center; /* Center buttons horizontally */    
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Stack buttons vertically */
+    justify-content: center; /* Center buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    width: 100%; /* Full width of the sidebar */
 }
 
 /* Sidebar button styles */
@@ -101,11 +101,16 @@ body {
 
 /* Main content area styling */
 .main-content {
-    display: flex; /* Use flexbox layout */
-    justify-content: flex-end; /* Align content to the right side */
-    align-items: center; /* Vertically center content */
-    height: 95vh; /* Make the content take up the full height of the viewport */
-    padding: 0 20px; /* Add horizontal padding inside the content */
+    margin-left: 20%; /* Leave space for the sidebar */
+    margin-top: 10vh; /* Account for header height */
+    padding: 20px; /* Add padding inside the content area */
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: flex-start; /* Align content to the top */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    height: calc(100vh - 10vh); /* Adjust height to exclude header */
+    box-sizing: border-box; /* Include padding and border in height/width calculations */
+    width: 80%; /* Occupy remaining width after sidebar */
 }
 
 /* Container for the canvas element */
