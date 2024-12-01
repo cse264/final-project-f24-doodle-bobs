@@ -167,6 +167,26 @@ body {
     background-color: #7FDEFF; /* Change background color on hover */
 }
 
+/* Delete button styling */
+.delete-button {
+    padding: 10px 20px; /* Same padding as download button */
+    font-size: 0.9rem; /* Same font size as download button */
+    font-weight: bold; /* Bold text */
+    color: black; /* Black text color */
+    background-color: #DABFFF; /* Light purple background (same as download button) */
+    border: 2px solid #4F518C; /* Purple border */
+    border-radius: 40px; /* Fully rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth color transition on hover */
+    text-align: center; /* Center align text */
+    margin-top: 10px; /* Add space between the buttons */
+}
+
+/* Hover effect for delete button */
+.delete-button:hover {
+    background-color: #7FDEFF; /* Same hover effect as download button */
+}
+
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     .grid-container {

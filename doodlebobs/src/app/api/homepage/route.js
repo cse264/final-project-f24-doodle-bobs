@@ -33,7 +33,6 @@ export async function POST() {
     }
 }
 
-
 export async function GET() {
     try {
         // Fetch all doodles with their details

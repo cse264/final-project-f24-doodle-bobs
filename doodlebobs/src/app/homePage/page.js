@@ -78,6 +78,35 @@ export default function HomePage() {
             console.error('Error downloading the file:', error);
             alert('An error occurred while downloading the file.');
         }
+    };
+    
+    const handleDelete = async (id) => {
+        // Prompt the user for the session key
+        const sessionKey = prompt('To delete this doodle, please provide the admin session key:');
+        if (!sessionKey) {
+            alert('Session key is required to delete a doodle.');
+            return;
+        }
+    
+        try {
+            // Send DELETE request with the session key
+            const response = await fetch(`/api/homePage?id=${id}&sessionkey=${sessionKey}`, {
+                method: 'DELETE',
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert('Doodle deleted successfully!');
+                // Optionally, update UI to remove the deleted doodle
+                setDrawings((prev) => prev.filter((doodle) => doodle.id !== id));
+            } else {
+                alert(`Failed to delete doodle: ${data.error}`);
+            }
+        } catch (error) {
+            console.error('Error deleting doodle:', error);
+            alert('An error occurred while deleting the doodle.');
+        }
     };    
 
     return (
@@ -127,6 +156,13 @@ export default function HomePage() {
                                         onClick={() => handleDownload(drawing.imageUrl, drawing.title)}
                                     >
                                         Download
+                                    </button>
+                                    {/* Delete Button */}
+                                    <button
+                                        className="button delete-button"
+                                        onClick={() => handleDelete(drawing.id)}
+                                    >
+                                        Delete
                                     </button>
                                 </div>
                             </div>
