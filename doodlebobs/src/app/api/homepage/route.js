@@ -1,4 +1,4 @@
-// src/app/api/homepage/route.js
+// src/app/api/homePage/route.js
 
 import doodleModel from '@/models/doodleModel';
 import axios from 'axios';
