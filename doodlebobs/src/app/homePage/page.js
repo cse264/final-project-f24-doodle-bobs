@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'; // Import router for navigation
 import Image from 'next/image'; // Next.js optimized image component
 import './homePage.css'; // Import the CSS for styling
 
-export default function HomePage() {
+export default function HomePage({userRole}) {
     // State variables
     const [drawings, setDrawings] = useState([]); // Store fetched drawings data
     const [loading, setLoading] = useState(true); // Track loading state
