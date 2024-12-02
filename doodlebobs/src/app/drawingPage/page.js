@@ -201,24 +201,30 @@ export default function DrawingPage() {
             const canvas = canvasRef.current;
             const imageData = canvas.toDataURL('image/png'); // Get canvas content as Base64
             const title = prompt('Enter a title for your doodle:'); // Prompt the user for a title
-
+    
             if (!title) {
-                alert('Title is required to post a doodle.'); //if no title
+                alert('Title is required to post a doodle.'); // If no title is provided
                 return;
             }
-            
-            //fetch to that route 
-            const response = await fetch('http://localhost:3000/api/drawingPage', { // Updated route
+    
+            const userId = localStorage.getItem('user_id'); // Retrieve user_id from localStorage
+            if (!userId) {
+                alert('You must be logged in to post a doodle.');
+                return;
+            }
+    
+            // Fetch to the route with userId included
+            const response = await fetch('http://localhost:3000/api/drawingPage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, imageData }),
-            });            
-
-            if (response.ok) { //if successful
+                body: JSON.stringify({ title, imageData, userId }), // Include userId in the payload
+            });
+    
+            if (response.ok) {
                 alert('Doodle posted successfully!');
-            } else { //if fail
+            } else {
                 const errorData = await response.json();
                 alert(`Failed to post doodle: ${errorData.error}`);
             }
@@ -226,7 +232,7 @@ export default function DrawingPage() {
             console.error('Error posting doodle:', error);
             alert('An error occurred while posting the doodle.');
         }
-    };
+    };    
 
     if (!isClient) {
         return null; // Avoid rendering on the server

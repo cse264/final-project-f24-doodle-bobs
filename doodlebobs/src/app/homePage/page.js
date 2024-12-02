@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Import router for navigation
@@ -9,15 +9,16 @@ export default function HomePage() {
     // State variables
     const [drawings, setDrawings] = useState([]); // Store fetched drawings data
     const [loading, setLoading] = useState(true); // Track loading state
+    const [userId, setUserId] = useState(null); // Store the logged-in user's ID
     const router = useRouter(); // Router instance for navigation
 
-    // Effect to reset scroll position to the top when the component is mounted
+    // Fetch the user_id from localStorage on component mount
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            document.documentElement.scrollTop = 0; // Reset scroll position for the root element
-            document.body.scrollTop = 0; // Reset scroll position for the body element
+        if (typeof window !== 'undefined') {
+            const storedUserId = localStorage.getItem('user_id');
+            setUserId(storedUserId); // Save the user_id to state
         }
-    }, []);    
+    }, []);
 
     // Effect to fetch drawings from the backend API
     useEffect(() => {
@@ -45,15 +46,20 @@ export default function HomePage() {
         router.push('/drawingPage'); // Navigate to /drawingPage
     };
 
+    // Function to handle the "Posts" button click and navigate to the user page
+    const goToUserPage = () => {
+        router.push('/userPage'); // Navigate to /userPage
+    };
+
     const handleDownload = async (url, title) => {
         try {
             // Fetch the image data from the URL
             const response = await fetch(url);
             const blob = await response.blob(); // Convert the response into a Blob
-    
+
             // Create a temporary URL for the Blob
             const blobUrl = URL.createObjectURL(blob);
-    
+
             // Prompt the user for a file name
             const fileName = prompt(
                 'Enter a file name for your drawing:',
@@ -63,14 +69,14 @@ export default function HomePage() {
                 alert('File name is required to save the file.');
                 return;
             }
-    
+
             // Create a temporary anchor element for downloading
             const link = document.createElement('a');
             link.href = blobUrl;
             link.download = fileName.endsWith('.png') ? fileName : `${fileName}.png`; // Ensure .png extension
             document.body.appendChild(link);
             link.click();
-    
+
             // Clean up by removing the anchor and revoking the Blob URL
             document.body.removeChild(link);
             URL.revokeObjectURL(blobUrl);
@@ -79,7 +85,7 @@ export default function HomePage() {
             alert('An error occurred while downloading the file.');
         }
     };
-    
+
     const handleDelete = async (id) => {
         // Prompt the user for the session key
         const sessionKey = prompt('To delete this doodle, please provide the admin session key:');
@@ -87,15 +93,15 @@ export default function HomePage() {
             alert('Session key is required to delete a doodle.');
             return;
         }
-    
+
         try {
             // Send DELETE request with the session key
             const response = await fetch(`/api/homePage?id=${id}&sessionkey=${sessionKey}`, {
                 method: 'DELETE',
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 alert('Doodle deleted successfully!');
                 // Optionally, update UI to remove the deleted doodle
@@ -107,7 +113,7 @@ export default function HomePage() {
             console.error('Error deleting doodle:', error);
             alert('An error occurred while deleting the doodle.');
         }
-    };    
+    };
 
     return (
         <div className="full-screen-container">
@@ -130,6 +136,13 @@ export default function HomePage() {
                     <button onClick={handleCreateClick} className="sidebar-button">
                         Create
                     </button>
+
+                    {/* Conditionally render the Posts button (not shown for user_id = 1) */}
+                    {userId !== '1' && (
+                        <button onClick={goToUserPage} className="sidebar-button">
+                            Posts
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -157,13 +170,16 @@ export default function HomePage() {
                                     >
                                         Download
                                     </button>
-                                    {/* Delete Button */}
-                                    <button
-                                        className="button delete-button"
-                                        onClick={() => handleDelete(drawing.id)}
-                                    >
-                                        Delete
-                                    </button>
+
+                                    {/* Conditionally render the Delete button for user_id = 1 */}
+                                    {userId === '1' && (
+                                        <button
+                                            className="button delete-button"
+                                            onClick={() => handleDelete(drawing.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}

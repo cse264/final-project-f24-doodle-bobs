@@ -20,12 +20,12 @@ export async function GET() {
 export async function POST(req) {
     try {
         // Parse request body
-        const { title, imageData } = await req.json();
+        const { title, imageData, userId } = await req.json();
 
-        // Validate title and imageData
-        if (!title || !imageData) {
+        // Validate title, imageData, and userId
+        if (!title || !imageData || !userId) {
             return NextResponse.json(
-                { error: 'Title and image data are required' },
+                { error: 'Title, image data, and user ID are required' },
                 { status: 400 }
             );
         }
@@ -60,17 +60,17 @@ export async function POST(req) {
             throw new Error('Failed to upload image to Imgur');
         }
 
-        // Store Imgur link in database
+        // Store Imgur link in database with associated userId
         const imgurLink = imgurResponse.data.data.link;
-        const newDoodle = await doodleModel.createDoodle(title, imgurLink);
+        const newDoodle = await doodleModel.createDoodle(title, imgurLink, userId);
 
         // Return the created doodle
         return NextResponse.json(newDoodle, { status: 201 });
     } catch (error) {
-        console.error('Error in POST /api/doodles:', error);
+        console.error('Error in POST /api/create:', error);
         return NextResponse.json(
             { error: 'Failed to create doodle', details: error.message },
             { status: 500 }
         );
-    } 
-} 
+    }
+}

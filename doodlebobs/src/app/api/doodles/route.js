@@ -19,12 +19,12 @@ export async function GET() {
 export async function POST(req) {
     try {
         // Parse request body
-        const { title, imageData } = await req.json();
+        const { title, imageData, userId } = await req.json();
 
-        // Validate title and imageData
-        if (!title || !imageData) {
+        // Validate title, imageData, and userId
+        if (!title || !imageData || !userId) {
             return NextResponse.json(
-                { error: 'Title and image data are required' },
+                { error: 'Title, image data, and user ID are required' },
                 { status: 400 }
             );
         }
@@ -59,52 +59,79 @@ export async function POST(req) {
             throw new Error('Failed to upload image to Imgur');
         }
 
-        // Store Imgur link in database
+        // Store Imgur link in database with associated userId
         const imgurLink = imgurResponse.data.data.link;
-        const newDoodle = await doodleModel.createDoodle(title, imgurLink);
+        const newDoodle = await doodleModel.createDoodle(title, imgurLink, userId);
 
         // Return the created doodle
         return NextResponse.json(newDoodle, { status: 201 });
     } catch (error) {
-        console.error('Error in POST /api/doodles:', error);
+        console.error('Error in POST /api/create:', error);
         return NextResponse.json(
             { error: 'Failed to create doodle', details: error.message },
             { status: 500 }
         );
     }
-} 
+}
 
+//delete route only for admins
 export async function DELETE(req) {
     const { searchParams } = new URL(req.url); // Parse the URL
-    const id = searchParams.get('id'); // Get the `id` from query params
-    const sessionKey = searchParams.get('sessionkey'); // Get the `sessionkey` from query params
+    const doodleId = searchParams.get('id'); // Get the `id` from query params
+    const userId = searchParams.get('user_id'); // Get the `user_id` from query params
 
-    if (!id) {
+    if (!doodleId) {
         return NextResponse.json(
             { error: 'Doodle ID is required' },
             { status: 400 }
         );
     }
 
-    if (!sessionKey) {
+    if (!userId) {
         return NextResponse.json(
-            { error: 'Session key is required' },
+            { error: 'User ID is required' },
             { status: 400 }
         );
     }
 
     try {
-        // Check the session key 
-        const adminSessionKey = process.env.ADMIN_SESSION_KEY;
-        if (sessionKey.trim() !== adminSessionKey.trim()) {
+        // Check if the user is admin
+        if (userId === '1') {
+            // Admin can delete any doodle
+            const wasDeleted = await doodleModel.deleteDoodleById(doodleId);
+
+            if (wasDeleted) {
+                return NextResponse.json(
+                    { message: 'Doodle deleted successfully by admin' },
+                    { status: 200 }
+                );
+            } else {
+                return NextResponse.json(
+                    { error: 'Doodle not found' },
+                    { status: 404 }
+                );
+            }
+        }
+
+        // For non-admin users, ensure they own the doodle
+        const doodle = await doodleModel.getDoodleById(doodleId);
+
+        if (!doodle) {
             return NextResponse.json(
-                { error: 'Unauthorized access' },
+                { error: 'Doodle not found' },
+                { status: 404 }
+            );
+        }
+
+        if (doodle.user_id !== parseInt(userId)) {
+            return NextResponse.json(
+                { error: 'Unauthorized to delete this doodle' },
                 { status: 403 }
             );
-        }        
+        }
 
-        // Attempt to delete the doodle
-        const wasDeleted = await doodleModel.deleteDoodleById(id);
+        // Proceed to delete the doodle for authorized user
+        const wasDeleted = await doodleModel.deleteDoodleById(doodleId);
 
         if (wasDeleted) {
             return NextResponse.json(
