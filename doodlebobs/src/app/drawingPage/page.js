@@ -150,7 +150,7 @@ export default function DrawingPage() {
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0]; // Get the selected file
-        const allowedTypes = ['image/jpeg', 'image/png']; // Allowed file types
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']; // Allowed file types
 
         if (file && allowedTypes.includes(file.type)) {
             const reader = new FileReader(); // Create a new FileReader

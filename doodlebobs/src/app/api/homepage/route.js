@@ -1,42 +1,14 @@
-// src/app/api/homepage/route.js
+// src/app/api/homePage/route.js
 
 import doodleModel from '@/models/doodleModel';
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
-// import { flushSync } from 'react-dom';
-
-/*
-export async function POST() {
-    try {
-        // Generate a session key for internal use (not included in the response)
-        let sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
-        while (sessionkey === process.env.ADMIN_SESSION_KEY) {
-            sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
-        }
-        const envPath = path.resolve(process.cwd(), '.env');
-
-        // Append the session key to the environment file (optional, for debugging purposes)
-        fs.appendFileSync(envPath, `\nSession_KEY=${sessionkey}\n`);
-
-        // Fetch all doodles for the homepage
-        const doodles = await doodleModel.getAllDoodles();
-
-        // Respond with the doodles (without including the session key in the response)
-        return NextResponse.json(doodles, { status: 200 });
-    } catch (error) {
-        console.error('Error in POST /homepage:', error);
-
-        // Respond with an error if something goes wrong
-        return NextResponse.json({ error: 'Failed to load homepage' }, { status: 500 });
-    }
-} */
 
 //get route to fetch everythingg
 export async function GET() {
     try {
-        // Fetch all doodles with their details
         const doodles = await doodleModel.getAllDoodles();
 
         // Ensure `imgur_link` is included in the response

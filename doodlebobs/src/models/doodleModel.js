@@ -60,8 +60,19 @@ async function deleteDoodleById(id) {
     }
 }
 
-// Create a new login (user account)
+//log back in
+async function login(userName, Password) {
+    const query = `SELECT * FROM Users WHERE username= $1 AND password =$2`;
+    try {
+        const result = await db.query(query, [userName, Password]);
+        return result.rows[0]
+    } catch (error) {
+        console.error('Error creating new user:', error);
+        throw error;
+    }
+}
 
+// signup (user account)
 async function signup(userName, password) {
     const query = `
         INSERT INTO Users (username, password)

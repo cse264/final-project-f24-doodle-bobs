@@ -14,6 +14,18 @@ export async function GET() {
         return NextResponse.json({ error: 'Failed to fetch doodles' }, { status: 500 });
     }
 }
+//get route for getting posts made by specific user
+export async function GET(req) { 
+    try {
+        const { userName } = await req.json();
+        const doodles = await doodleModel.getAllDoodlesMadeSpecific(userName);
+        return NextResponse.json(doodles);
+    } catch (error) {
+        console.error('Error in GET /api/doodles:', error);
+        return NextResponse.json({ error: 'Failed to fetch doodles' }, { status: 500 });
+    }
+    
+}
 
 // POST route to create a new doodle
 export async function POST(req) {
