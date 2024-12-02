@@ -52,7 +52,7 @@ async function deleteDoodleById(id) {
     }
 }
 // New Login
-async function creatLogin(userName, Password) {
+async function createLogin(userName, Password) {
     const query = `INSERT INTO Users (title, imgur_link, created_at)
     VALUES ($1, $2)
     RETURNING *;`;
@@ -83,4 +83,7 @@ module.exports = {
     getAllDoodles,
     createDoodle,
     deleteDoodleById,
+    login,
+    createLogin,
+    getAllDoodlesMadeSpecific,
 };

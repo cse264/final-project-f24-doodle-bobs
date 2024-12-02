@@ -10,8 +10,12 @@ import { NextResponse } from 'next/server';
 // GET /homepage route
 export async function POST() {
     try {
-        // Generate a session key for internal use (not included in the response)
-        let sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
+        const userName = req.headers.get('userName');
+        const passWord = req.headers.get('passWord');
+        const user = await doodleModel.login(userName, passWord);
+
+        if (user) {
+            let sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
         while (sessionkey === process.env.ADMIN_SESSION_KEY) {
             sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
         }
@@ -21,10 +25,29 @@ export async function POST() {
         fs.appendFileSync(envPath, `\nSession_KEY=${sessionkey}\n`);
 
         // Fetch all doodles for the homepage
-        const doodles = await doodleModel.getAllDoodles();
+        const doodles = await doodleModel.getAllDoodlesMadeSpecific(userName);
 
         // Respond with the doodles (without including the session key in the response)
         return NextResponse.json(doodles, { status: 200 });
+        } else {
+            const user = await doodleModel.createLogin(userName, passWord);
+            let sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
+        while (sessionkey === process.env.ADMIN_SESSION_KEY) {
+            sessionkey = (Math.floor(Math.random() * (99999999 - 0 + 1)) + 1).toString();
+        }
+        const envPath = path.resolve(process.cwd(), '.env');
+
+        // Append the session key to the environment file (optional, for debugging purposes)
+        fs.appendFileSync(envPath, `\nSession_KEY=${sessionkey}\n`);
+
+        // Fetch all doodles for the homepage
+        const doodles = await doodleModel.getAllDoodlesMadeSpecific(userName);
+
+        // Respond with the doodles (without including the session key in the response)
+        return NextResponse.json(doodles, { status: 200 });
+        }
+        // Generate a session key for internal use (not included in the response)
+        
     } catch (error) {
         console.error('Error in POST /homepage:', error);
 
@@ -33,10 +56,18 @@ export async function POST() {
     }
 }
 
-export async function GET() {
+export async function GET(req) {
     try {
+        const userName = req.headers.get('userName');
+        let doodles;
         // Fetch all doodles with their details
-        const doodles = await doodleModel.getAllDoodles();
+        if(userName){
+            const doodles = await doodleModel.getAllDoodlesMadeSpecific(userName);
+        }
+        else{
+            const doodles = await doodleModel.getAllDoodles();
+        }
+        
 
         // Ensure `imgur_link` is included in the response
         const formattedDoodles = doodles.map((doodle) => ({
