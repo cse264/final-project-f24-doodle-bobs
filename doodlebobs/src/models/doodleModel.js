@@ -12,6 +12,16 @@ async function getAllDoodles() {
         throw error;
     }
 }
+async function getAllDoodlesMadeSpecific(userName) {
+    const query = `SELECT * FROM Doodle WHERE userName = $1 ORDER BY created_at DESC;`; //newest doodles come first
+    try {
+        const result = await db.query(query, [userName]);
+        return result.rows; // Return all doodles
+    } catch (error) {
+        console.error('Error fetching doodles:', error);
+        throw error;
+    }
+}
 
 // Create a new doodle
 async function createDoodle(title, imgurLink) {
@@ -41,6 +51,33 @@ async function deleteDoodleById(id) {
         throw error;
     }
 }
+// New Login
+async function creatLogin(userName, Password) {
+    const query = `INSERT INTO Users (title, imgur_link, created_at)
+    VALUES ($1, $2)
+    RETURNING *;`;
+    try {
+        const result = await db.query(query, [userName, Password]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error creating new user:', error);
+        throw error;
+    }
+}
+
+//log back in
+async function login(userName, Password) {
+    const query = `SELECT * FROM Users WHERE username= $1 AND password =$2`;
+    try {
+        const result = await db.query(query, [userName, Password]);
+        return result.rows[0]
+    } catch (error) {
+        console.error('Error creating new user:', error);
+        throw error;
+    }
+}
+
+
 
 module.exports = {
     getAllDoodles,
