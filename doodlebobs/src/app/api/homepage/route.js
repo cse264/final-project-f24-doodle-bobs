@@ -25,63 +25,31 @@ export async function GET() {
     }
 }
 
-//delete route only for admins
+// DELETE route to delete a doodle
 export async function DELETE(req) {
     const { searchParams } = new URL(req.url); // Parse the URL
     const doodleId = searchParams.get('id'); // Get the `id` from query params
     const userId = searchParams.get('user_id'); // Get the `user_id` from query params
 
+    // Validate required parameters
     if (!doodleId) {
-        return NextResponse.json(
-            { error: 'Doodle ID is required' },
-            { status: 400 }
-        );
+        return NextResponse.json({ error: 'Doodle ID is required' }, { status: 400 });
     }
 
     if (!userId) {
-        return NextResponse.json(
-            { error: 'User ID is required' },
-            { status: 400 }
-        );
+        return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
     try {
-        // Check if the user is admin
-        if (userId === '1') {
-            // Admin can delete any doodle
-            const wasDeleted = await doodleModel.deleteDoodleById(doodleId);
-
-            if (wasDeleted) {
-                return NextResponse.json(
-                    { message: 'Doodle deleted successfully by admin' },
-                    { status: 200 }
-                );
-            } else {
-                return NextResponse.json(
-                    { error: 'Doodle not found' },
-                    { status: 404 }
-                );
-            }
-        }
-
-        // For non-admin users, ensure they own the doodle
-        const doodle = await doodleModel.getDoodleById(doodleId);
-
-        if (!doodle) {
+        // Check if the user is an admin
+        if (userId !== '1') {
             return NextResponse.json(
-                { error: 'Doodle not found' },
-                { status: 404 }
-            );
-        }
-
-        if (doodle.user_id !== parseInt(userId)) {
-            return NextResponse.json(
-                { error: 'Unauthorized to delete this doodle' },
+                { error: 'Unauthorized: Only admins can delete doodles' },
                 { status: 403 }
             );
         }
 
-        // Proceed to delete the doodle for authorized user
+        // Proceed to delete the doodle
         const wasDeleted = await doodleModel.deleteDoodleById(doodleId);
 
         if (wasDeleted) {
@@ -90,19 +58,10 @@ export async function DELETE(req) {
                 { status: 200 }
             );
         } else {
-            return NextResponse.json(
-                { error: 'Doodle not found' },
-                { status: 404 }
-            );
+            return NextResponse.json({ error: 'Doodle not found' }, { status: 404 });
         }
     } catch (error) {
-        console.error('Error in DELETE /api/doodles:', error);
-        return NextResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-        );
+        console.error('Error in DELETE /api/homePage:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
-
-
-

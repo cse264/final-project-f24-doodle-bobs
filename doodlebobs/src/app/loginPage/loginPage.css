@@ -1,0 +1,114 @@
+/* General body styles */
+.login-page {
+    font-family: roboto; /* Use roboto font */
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7; /* Light background for contrast */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    flex-direction: column; /* Stack items vertically */
+    position: relative; /* Enable positioning for logo */
+}
+
+/* Logo styling */
+.logo-container {
+    position: absolute; /* Position logo above the form */
+    top: 10%; /* Adjust as needed to fine-tune the position */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.logo-image {
+    width: 120px; /* Set width for the logo */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Main container for the login/signup page */
+.login-container {
+    background-color: white; /* White card-like background */
+    border: 3px solid #4F518C; /* Purple border for consistency */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 40px; /* Padding for the form */
+    width: 350px; /* Fixed width for the form */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Center align text */
+}
+
+/* Page title for login or signup */
+.login-title {
+    font-size: 1.8rem; /* Larger font size for title */
+    color: #2C2A4A; /* Dark blue for text */
+    font-weight: bold;
+    margin-bottom: 20px; /* Space below the title */
+}
+
+/* Input field styling */
+.input-field {
+    width: 100%; /* Full width inside the form */
+    padding: 10px 15px; /* Padding inside the input */
+    margin-bottom: 15px; /* Space between fields */
+    border: 2px solid #DABFFF; /* Light purple border */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 1rem; /* Readable font size */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Button styling */
+.submit-button {
+    background-color: #4F518C; /* Dark purple background */
+    color: white; /* White text for contrast */
+    font-size: 1rem; /* Button font size */
+    font-weight: bold; /* Bold text */
+    border: none; /* Remove default border */
+    border-radius: 20px; /* Rounded corners */
+    padding: 12px 20px; /* Padding for the button */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    width: 100%; /* Full width of the form */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect for button */
+.submit-button:hover {
+    background-color: #2C2A4A; /* Darker purple on hover */
+}
+
+/* Toggle between login/signup link */
+.toggle-link {
+    margin-top: 10px; /* Space above the link */
+    font-size: 0.9rem; /* Slightly smaller text */
+    color: #4F518C; /* Purple link color */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    text-decoration: underline; /* Underline the link */
+}
+
+/* Hover effect for toggle link */
+.toggle-link:hover {
+    color: #2C2A4A; /* Darker purple on hover */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 400px) {
+    .login-container {
+        width: 90%; /* Reduce width for smaller screens */
+        padding: 20px; /* Adjust padding */
+    }
+    .login-title {
+        font-size: 1.5rem; /* Adjust font size */
+    }
+}
+
+.submit-button:disabled {
+    background-color: #d3d3d3; /* Gray background for disabled state */
+    cursor: not-allowed; /* Indicate that the button is not clickable */
+}
+
+.submit-button:disabled:hover {
+    background-color: #d3d3d3; /* Keep disabled state consistent on hover */
+}

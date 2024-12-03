@@ -35,33 +35,21 @@ export async function GET(req) {
 export async function DELETE(req) {
     const { searchParams } = new URL(req.url); // Parse the URL
     const doodleId = searchParams.get('id'); // Get the `id` from query params
-    const userId = parseInt(searchParams.get('user_id'), 10); // Get the `user_id` from query params
 
+    // Validate required parameters
     if (!doodleId) {
         return NextResponse.json({ error: 'Doodle ID is required' }, { status: 400 });
     }
 
-    if (!userId) {
-        return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
-    }
-
     try {
-        // Ensure the user owns the doodle
-        const doodle = await doodleModel.getDoodleById(doodleId);
-
-        if (!doodle) {
-            return NextResponse.json({ error: 'Doodle not found' }, { status: 404 });
-        }
-
-        if (doodle.user_id !== userId) {
-            return NextResponse.json({ error: 'Unauthorized to delete this doodle' }, { status: 403 });
-        }
-
-        // Proceed to delete the doodle for authorized user
+        // Proceed to delete the doodle
         const wasDeleted = await doodleModel.deleteDoodleById(doodleId);
 
         if (wasDeleted) {
-            return NextResponse.json({ message: 'Doodle deleted successfully' }, { status: 200 });
+            return NextResponse.json(
+                { message: 'Doodle deleted successfully' },
+                { status: 200 }
+            );
         } else {
             return NextResponse.json({ error: 'Doodle not found' }, { status: 404 });
         }

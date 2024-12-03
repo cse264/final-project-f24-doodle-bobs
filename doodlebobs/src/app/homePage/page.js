@@ -87,24 +87,23 @@ export default function HomePage() {
     };
 
     const handleDelete = async (id) => {
-        // Prompt the user for the session key
-        const sessionKey = prompt('To delete this doodle, please provide the admin session key:');
-        if (!sessionKey) {
-            alert('Session key is required to delete a doodle.');
+        const userId = localStorage.getItem('user_id'); // get user_id from localStorage
+        if (!userId) {
+            alert('You must be logged in to delete a doodle.');
             return;
         }
-
+    
         try {
-            // Send DELETE request with the session key
-            const response = await fetch(`/api/homePage?id=${id}&sessionkey=${sessionKey}`, {
+            // Send DELETE request with userId included in the query
+            const response = await fetch(`/api/homePage?id=${id}&user_id=${userId}`, {
                 method: 'DELETE',
             });
-
+    
             const data = await response.json();
-
+    
             if (response.ok) {
                 alert('Doodle deleted successfully!');
-                // Optionally, update UI to remove the deleted doodle
+                // Remove the deleted doodle from the UI
                 setDrawings((prev) => prev.filter((doodle) => doodle.id !== id));
             } else {
                 alert(`Failed to delete doodle: ${data.error}`);
@@ -113,7 +112,7 @@ export default function HomePage() {
             console.error('Error deleting doodle:', error);
             alert('An error occurred while deleting the doodle.');
         }
-    };
+    };    
 
     return (
         <div className="full-screen-container">

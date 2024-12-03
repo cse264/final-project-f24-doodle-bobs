@@ -1,6 +1,6 @@
 /* General body styles */
 body {
-    font-family: roboto; /* Set the font for the body to Arial or a sans-serif fallback */
+    font-family: roboto; /* Set the font */
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
     overflow-y: hidden; /* Prevent unwanted scrolling*/
