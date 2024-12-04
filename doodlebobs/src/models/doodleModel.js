@@ -1,5 +1,6 @@
 // src/models/doodleModel.js
 
+const { useStyleRegistry } = require('styled-jsx');
 const db = require('../lib/db'); // Importing database connection
 
 async function getAllDoodles() {
@@ -62,10 +63,19 @@ async function deleteDoodleById(id) {
 
 //log back in
 async function login(userName, Password) {
-    const query = `SELECT * FROM Users WHERE username= $1 AND password =$2`;
+    const query = `SELECT * FROM Users WHERE username = $1 AND password = $2`;
     try {
         const result = await db.query(query, [userName, Password]);
-        return result.rows[0]
+        const user =  result.rows[0];
+        if (user){
+            return user;
+
+        }
+        else{
+            throw new Error('Invalid Username or password')
+        }
+        
+        
     } catch (error) {
         console.error('Error creating new user:', error);
         throw error;

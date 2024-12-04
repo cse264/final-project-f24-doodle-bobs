@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server';
 //get route to fetch everythingg
 export async function GET() {
     try {
-        const doodles = await doodleModel.getAllDoodles();
+        const doodles = await doodleModel.getAllDoodlesMadeSpecific();
 
         // Ensure `imgur_link` is included in the response
         const formattedDoodles = doodles.map((doodle) => ({
