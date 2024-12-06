@@ -3,7 +3,7 @@
     font-family: roboto; /* Use roboto font */
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7; /* Light background for contrast */
+    background-color: #4F518C; /* Light background for contrast */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,6 +58,7 @@
     border-radius: 10px; /* Rounded corners */
     font-size: 1rem; /* Readable font size */
     box-sizing: border-box; /* Include padding and border in width */
+    color: #4F518C;
 }
 
 /* Button styling */
