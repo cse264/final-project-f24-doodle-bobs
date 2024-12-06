@@ -1,6 +1,5 @@
 // src/models/doodleModel.js
 
-const { useStyleRegistry } = require('styled-jsx');
 const db = require('../lib/db'); // Importing database connection
 
 async function getAllDoodles() {
