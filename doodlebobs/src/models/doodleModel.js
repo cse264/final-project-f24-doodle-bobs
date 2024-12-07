@@ -13,20 +13,19 @@ async function getAllDoodles() {
     }
 }
 
-// Get all doodles made by a specific user
-async function getAllDoodlesMadeSpecific(userName) {
+// Get all doodles made by a specific user using their user_id
+async function getAllDoodlesMadeSpecific(userId) {
     const query = `
-        SELECT Doodle.*
+        SELECT *
         FROM Doodle
-        INNER JOIN Users ON Doodle.user_id = Users.user_id
-        WHERE Users.username = $1
-        ORDER BY Doodle.created_at DESC; -- Newest doodles come first
+        WHERE user_id = $1
+        ORDER BY created_at DESC; -- Newest doodles come first
     `;
     try {
-        const result = await db.query(query, [userName]);
-        return result.rows; // Return all doodles
+        const result = await db.query(query, [userId]); // Use userId as the parameter
+        return result.rows; // Return all doodles for the specific user
     } catch (error) {
-        console.error('Error fetching doodles:', error);
+        console.error('Error fetching doodles for user:', error);
         throw error;
     }
 }

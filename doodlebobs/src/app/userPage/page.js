@@ -1,48 +1,56 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; 
-import Image from 'next/image'; 
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import './userPage.css';
 
-export default function UserPage() { 
+export default function UserPage() {
     const [drawings, setDrawings] = useState([]); // Store fetched drawings data
     const [loading, setLoading] = useState(true); // Track loading state
     const router = useRouter(); // Router instance for navigation
-    const username = typeof window !== 'undefined' ? localStorage.getItem('username') : null;
-    
+    const [userId, setUserId] = useState(null); // State to hold the user ID
 
-    // Effect to fetch drawings for the specific user (using the `username`)
+    // Retrieve the user ID from localStorage on component mount
     useEffect(() => {
-        console.log('Username:', username);
-        console.log('Fetch URL:', `/api/userPage?username=${username}`);
-    
-        const fetchData = async () => {
+        const storedUserId = localStorage.getItem('user_id');
+        if (storedUserId) {
+            setUserId(storedUserId);
+        } else {
+            alert('No user ID found. Please log in.');
+            router.push('/loginPage'); // Redirect to login if no user ID is found
+        }
+    }, [router]);
+
+    // Function to fetch drawings for the specific user
+    const fetchDrawings = async () => {
+        if (userId) {
             try {
-                const response = await fetch(`/api/userPage?username=${username}`, {
+                const response = await fetch(`/api/userPage?user_id=${userId}`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                 });
-    
+
                 if (response.ok) {
                     const data = await response.json(); // Parse JSON response
                     setDrawings(data); // Store the parsed data in state
-                    setLoading(false); // Set loading to false once data is fetched
                 } else {
                     console.error('Failed to fetch drawings');
-                    setLoading(false);
+                    alert('Failed to load drawings. Please try again later.');
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setLoading(false); // Ensure loading is false on error
+                alert('An error occurred while loading the drawings.');
+            } finally {
+                setLoading(false); // Ensure loading state is updated
             }
-        };
-    
-        // Call fetchData when username is available
-        fetchData();
-    
-    }, [username]); // Re-run effect when `username` or `router` changes
-    
+        }
+    };
+
+    // Fetch drawings when userId changes
+    useEffect(() => {
+        fetchDrawings();
+    }, [userId]);
 
     // Function to handle the "Delete" button click and remove a doodle
     const handleDelete = async (id) => {
@@ -52,9 +60,8 @@ export default function UserPage() {
             });
 
             if (response.ok) {
-                alert('Doodle deleted successfully');
-                // Remove the deleted doodle from the UI
-                setDrawings((prev) => prev.filter((doodle) => doodle.id !== id));
+                alert('Doodle deleted successfully!');
+                fetchDrawings(); // Re-fetch the updated list of drawings
             } else {
                 const data = await response.json();
                 alert(`Failed to delete doodle: ${data.error}`);
@@ -68,12 +75,40 @@ export default function UserPage() {
     // Function to handle drawing page navigation
     const navigateToDrawingPage = () => {
         router.push('/drawingPage'); // Navigate to the drawing page
-        console.log('Username:', username); // Check if username is correctly passed
     };
 
     // Function to handle logo click (navigate to homepage)
     const navigateToHomePage = () => {
         router.push('/homePage');
+    };
+
+    const handleDownload = async (url, title) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+
+            const blobUrl = URL.createObjectURL(blob);
+            const fileName = prompt(
+                'Enter a file name for your drawing:',
+                `${title || 'drawing'}.png`
+            );
+            if (!fileName) {
+                alert('File name is required to save the file.');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = fileName.endsWith('.png') ? fileName : `${fileName}.png`;
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error('Error downloading the file:', error);
+            alert('An error occurred while downloading the file.');
+        }
     };
 
     return (
@@ -86,38 +121,36 @@ export default function UserPage() {
                     alt="App Logo"
                     width={100}
                     height={100}
-                    onClick={navigateToHomePage} // Make the logo clickable to go to the homepage
+                    onClick={navigateToHomePage}
                 />
                 <h1 className="header-title">Your Doodles</h1>
             </header>
-    
+
             {/* Sidebar Section */}
             <div className="sidebar">
-                {/* Button to navigate to the drawing page */}
                 <button className="sidebar-button" onClick={navigateToDrawingPage}>
                     Create
                 </button>
             </div>
-    
+
             {/* Main Content Section */}
             <div className="main-content">
                 {loading ? (
-                    <div>Loading...</div> // Placeholder for loading state
+                    <div>Loading...</div>
                 ) : (
                     <div className="grid-container">
                         {drawings.length === 0 ? (
-                            <div>No doodles available</div> // If no drawings exist
+                            <div>No doodles available</div>
                         ) : (
                             drawings.map((drawing) => (
                                 <div key={drawing.doodle_id} className="grid-item">
                                     <img
-                                        src={drawing.imgur_link} // Use the correct field for the image URL
-                                        alt={drawing.title || 'Doodle'} // Provide fallback for alt text
+                                        src={drawing.imgur_link}
+                                        alt={drawing.title || 'Doodle'}
                                         className="doodle-image"
                                     />
                                     <div className="doodle-title-container">
                                         <div className="doodle-title">{drawing.title || 'Untitled'}</div>
-                                        {/* Download button */}
                                         <button
                                             className="download-button"
                                             onClick={() =>
@@ -126,7 +159,6 @@ export default function UserPage() {
                                         >
                                             Download
                                         </button>
-                                        {/* Delete button */}
                                         <button
                                             className="delete-button"
                                             onClick={() => handleDelete(drawing.doodle_id)}
@@ -142,4 +174,4 @@ export default function UserPage() {
             </div>
         </div>
     );
-}    
+}
