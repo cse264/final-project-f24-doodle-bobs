@@ -9,7 +9,8 @@ import { NextResponse } from 'next/server';
 // Get all doodles for a specific user
 export async function GET(req) {
     const { searchParams } = new URL(req.url); // Parse the URL
-    const username = searchParams.get('username'); // Get the `username` from query params
+    const username = searchParams.get('username'); // Get the `username` from query 
+
 
     if (!username) {
         return NextResponse.json({ error: 'Username is required' }, { status: 400 });

@@ -1,0 +1,161 @@
+/* General body styles */
+body {
+    font-family: roboto;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Full-screen container */
+.full-screen-container {
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header styling */
+.header {
+    height: 12vh;
+    display: flex;
+    align-items: center;
+    padding: 1%;
+    background-color: #2C2A4A;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-title {
+    margin-left: 10px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.header-logo {
+    width: 7vw;
+    height: auto;
+}
+
+/* Sidebar styling */
+.sidebar {
+    height: 100vh;
+    width: 20%;
+    background-color: #4F518C;
+    color: white;
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.sidebar-button {
+    background-color: #DABFFF;
+    color: black;
+    padding: 20px 30px;
+    border: 2px solid #2C2A4A;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 70%;
+    text-align: center;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+
+.sidebar-button:hover {
+    background-color: #7FDEFF;
+}
+
+/* Main content styling */
+.main-content {
+    margin-left: 20%;
+    margin-top: 12vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    height: calc(100vh - 12vh);
+    width: 80%;
+    box-sizing: border-box;
+}
+
+/* Grid container for drawings */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    justify-items: center;
+}
+
+/* Individual grid items */
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #DABFFF;
+    padding: 15px;
+    border: 3px solid #4F518C;
+    border-radius: 12px;
+    box-sizing: border-box;
+    max-width: 400px;
+}
+
+/* Drawing image styles */
+.doodle-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Title and button container */
+.doodle-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.doodle-title {
+    font-size: 16px;
+    color: #2C2A4A;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Button styling */
+.delete-button,
+.download-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: black;
+    background-color: #DABFFF;
+    border: 2px solid #4F518C;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.delete-button:hover,
+.download-button:hover {
+    background-color: #7FDEFF;
+}
+

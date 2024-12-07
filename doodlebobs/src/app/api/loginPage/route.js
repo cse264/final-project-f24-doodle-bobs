@@ -13,7 +13,7 @@ export async function POST(req) {
 
         // Attempt to log in the user
         const user = await doodleModel.login(username, password);
-        return NextResponse.json({ user_id: user.user_id }, { status: 200 });
+        return NextResponse.json({ user_id: user.user_id, username: user.username }, { status: 200 });
     } catch (error) {
         if (error.message === 'Invalid username or password') {
             return NextResponse.json({ error: 'Invalid username or password' }, { status: 401 });

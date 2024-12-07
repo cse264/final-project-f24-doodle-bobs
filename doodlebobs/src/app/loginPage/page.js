@@ -28,8 +28,9 @@ export default function LoginSignupPage() {
             });
 
             if (response.ok) {
-                const { user_id } = await response.json();
-                localStorage.setItem('user_id', user_id); // Save the user ID locally
+                const { user_id, username } = await response.json();
+                localStorage.setItem('user_id', user_id); // Save the user ID locally                
+                localStorage.setItem('username', username); // Save username locally
                 alert(isSignup ? 'Sign-Up successful!' : 'Login successful!');
                 router.push('/homePage'); // Redirect to the homepage
             } else {
