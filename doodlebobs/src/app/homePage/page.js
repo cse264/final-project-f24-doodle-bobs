@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Import router for navigation
 import Image from 'next/image'; // Next.js optimized image component
-import './homePage.css'; // Import the CSS for styling
+import './homePage.css'; // Import the scoped CSS for homepage
 
 export default function HomePage() {
     const [drawings, setDrawings] = useState([]); // Store fetched drawings data
@@ -91,15 +91,15 @@ export default function HomePage() {
             alert('You must be logged in to delete a doodle.');
             return;
         }
-    
+
         try {
             // Send DELETE request with userId included in the query
             const response = await fetch(`/api/homePage?id=${id}&user_id=${userId}`, {
                 method: 'DELETE',
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 alert('Doodle deleted successfully!');
                 // Remove the deleted doodle from the UI
@@ -111,57 +111,57 @@ export default function HomePage() {
             console.error('Error deleting doodle:', error);
             alert('An error occurred while deleting the doodle.');
         }
-    };    
+    };
 
     return (
-        <div className="full-screen-container">
+        <div className="homepage-full-screen-container">
             {/* Header Section */}
-            <header className="header">
+            <header className="homepage-header">
                 <Image
-                    className="header-logo"
+                    className="homepage-header-logo"
                     src="/logo.png"
                     alt="App Logo"
                     width={100}
                     height={100}
                 />
-                <h1 className="header-title">Doodlebob</h1>
+                <h1 className="homepage-header-title">Doodlebob</h1>
             </header>
 
             {/* Sidebar Section */}
-            <div className="sidebar">
-                <div className="sidebar-button-container">
+            <div className="homepage-sidebar">
+                <div className="homepage-sidebar-button-container">
                     {/* Create Button */}
-                    <button onClick={handleCreateClick} className="sidebar-button">
+                    <button onClick={handleCreateClick} className="homepage-sidebar-button">
                         Create
                     </button>
 
                     {/* Posts Button */}
-                    <button onClick={goToUserPage} className="sidebar-button">
+                    <button onClick={goToUserPage} className="homepage-sidebar-button">
                         Posts
                     </button>
                 </div>
             </div>
 
             {/* Main Content Section */}
-            <div className="main-content">
+            <div className="homepage-main-content">
                 {loading ? (
                     // Placeholder for loading state
                     <div>Loading...</div>
                 ) : (
                     // Render grid of drawings when data is available
-                    <div className="grid-container">
+                    <div className="homepage-grid-container">
                         {drawings.map((drawing) => (
-                            <div key={drawing.id} className="grid-item">
+                            <div key={drawing.id} className="homepage-grid-item">
                                 <img
                                     src={drawing.imageUrl} // Display drawing image
                                     alt={drawing.title} // Set image alt text
-                                    className="doodle-image"
+                                    className="homepage-doodle-image"
                                 />
-                                <div className="doodle-title-container">
-                                    <div className="doodle-title">{drawing.title}</div>
+                                <div className="homepage-doodle-title-container">
+                                    <div className="homepage-doodle-title">{drawing.title}</div>
                                     {/* Download Button */}
                                     <button
-                                        className="button download-button"
+                                        className="homepage-download-button"
                                         onClick={() => handleDownload(drawing.imageUrl, drawing.title)}
                                     >
                                         Download
@@ -170,7 +170,7 @@ export default function HomePage() {
                                     {/* Conditionally render the Delete button for user_id = 1 */}
                                     {userId === '1' && (
                                         <button
-                                            className="button delete-button"
+                                            className="homepage-delete-button"
                                             onClick={() => handleDelete(drawing.id)}
                                         >
                                             Delete

@@ -1,5 +1,5 @@
-/* General body styles */
-body {
+/* General body styles for the homepage */
+body.homepage-body {
     font-family: roboto; /* Set default font style */
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
@@ -7,7 +7,7 @@ body {
 }
 
 /* Full-screen container to hold the whole page content */
-.full-screen-container {
+.homepage-full-screen-container {
     background-color: white; /* Set the background color */
     height: 100vh; /* Full viewport height */
     display: flex; /* Flexbox layout for horizontal alignment */
@@ -15,7 +15,7 @@ body {
 }
 
 /* Header styling */
-.header {
+.homepage-header {
     height: 12vh; /* Fixed height for the header */
     display: flex; /* Flexbox layout for content alignment */
     align-items: center; /* Center items vertically */
@@ -23,12 +23,11 @@ body {
     background-color: #2C2A4A; /* Dark background color */
     position: sticky; /* Make the header sticky */
     top: 0; /* Fix it to the top of the page */
-    /*width: 100%; */ /* Full width */
     z-index: 10; /* Ensure the header is above other elements */
 }
 
 /* Title inside the header */
-.header-title {
+.homepage-header-title {
     margin-left: 10px; /* Add space between the logo and title */
     font-size: 2rem; /* Set font size for the title */
     font-weight: bold; /* Make the title bold */
@@ -36,13 +35,13 @@ body {
 }
 
 /* Logo in the header */
-.header-logo {
+.homepage-header-logo {
     width: 7vw; /* Set logo width as a percentage of viewport width */
     height: auto; /* Maintain aspect ratio */
 }
 
 /* Sidebar styling */
-.sidebar {
+.homepage-sidebar {
     height: calc(100vh - 10vh); /* Sidebar occupies the height below the header */
     width: 20%; /* Fixed width for the sidebar */
     background-color: #4F518C; /* Sidebar background color */
@@ -57,7 +56,7 @@ body {
 }
 
 /* Button container inside the sidebar */
-.sidebar-button-container {
+.homepage-sidebar-button-container {
     display: flex; /* Flexbox layout */
     flex-direction: column; /* Stack buttons vertically */
     justify-content: center; /* Center buttons vertically */
@@ -66,7 +65,7 @@ body {
 }
 
 /* Sidebar button styles */
-.sidebar-button {
+.homepage-sidebar-button {
     background-color: #DABFFF; /* Light purple background */
     color: black; /* Black text color */
     padding: 20px 30px; /* Padding for a larger clickable area */
@@ -82,12 +81,12 @@ body {
 }
 
 /* Hover effect for sidebar buttons */
-.sidebar-button:hover {
+.homepage-sidebar-button:hover {
     background-color: #7FDEFF; /* Change background color on hover */
 }
 
 /* Main content area styling */
-.main-content {
+.homepage-main-content {
     margin-left: 20%; /* Leave space for the sidebar */
     margin-top: 10vh; /* Account for header height */
     padding: 20px; /* Add padding inside the content area */
@@ -101,7 +100,7 @@ body {
 }
 
 /* Grid container for drawings */
-.grid-container {
+.homepage-grid-container {
     display: grid; /* Grid layout */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid columns */
     gap: 20px; /* Space between grid items */
@@ -110,7 +109,7 @@ body {
 }
 
 /* Individual grid items */
-.grid-item {
+.homepage-grid-item {
     display: flex; /* Flexbox layout */
     flex-direction: column; /* Stack content vertically */
     justify-content: center; /* Center content vertically */
@@ -125,14 +124,14 @@ body {
 }
 
 /* Styling for doodle images */
-.doodle-image {
+.homepage-doodle-image {
     max-width: 100%; /* Scale down to fit container */
     height: auto; /* Maintain aspect ratio */
     border-radius: 4px; /* Slightly rounded corners */
 }
 
 /* Title and button container */
-.doodle-title-container {
+.homepage-doodle-title-container {
     display: flex; /* Flexbox layout */
     flex-direction: column; /* Stack title and button vertically */
     justify-content: center; /* Center content vertically */
@@ -142,7 +141,7 @@ body {
 }
 
 /* Title styling */
-.doodle-title {
+.homepage-doodle-title {
     font-size: 16px; /* Font size */
     color: #2C2A4A; /* Dark blue text color */
     font-weight: bold; /* Bold text */
@@ -150,7 +149,7 @@ body {
 }
 
 /* Download button styling */
-.download-button {
+.homepage-download-button {
     padding: 10px 20px; /* Padding for button */
     font-size: 0.9rem; /* Font size */
     font-weight: bold; /* Bold text */
@@ -164,12 +163,12 @@ body {
 }
 
 /* Hover effect for download button */
-.download-button:hover {
+.homepage-download-button:hover {
     background-color: #7FDEFF; /* Change background color on hover */
 }
 
 /* Delete button styling */
-.delete-button {
+.homepage-delete-button {
     padding: 10px 20px; /* Same padding as download button */
     font-size: 0.9rem; /* Same font size as download button */
     font-weight: bold; /* Bold text */
@@ -184,13 +183,13 @@ body {
 }
 
 /* Hover effect for delete button */
-.delete-button:hover {
+.homepage-delete-button:hover {
     background-color: #7FDEFF; /* Same hover effect as download button */
 }
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
-    .grid-container {
+    .homepage-grid-container {
         grid-template-columns: 1fr; /* Single-column layout on smaller screens */
     }
 }
