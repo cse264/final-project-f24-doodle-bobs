@@ -6,7 +6,6 @@ import Image from 'next/image'; // Next.js optimized image component
 import './homePage.css'; // Import the CSS for styling
 
 export default function HomePage() {
-    // State variables
     const [drawings, setDrawings] = useState([]); // Store fetched drawings data
     const [loading, setLoading] = useState(true); // Track loading state
     const [userId, setUserId] = useState(null); // Store the logged-in user's ID
@@ -136,12 +135,10 @@ export default function HomePage() {
                         Create
                     </button>
 
-                    {/* Conditionally render the Posts button (not shown for user_id = 1) */}
-                    {userId !== '1' && (
-                        <button onClick={goToUserPage} className="sidebar-button">
-                            Posts
-                        </button>
-                    )}
+                    {/* Posts Button */}
+                    <button onClick={goToUserPage} className="sidebar-button">
+                        Posts
+                    </button>
                 </div>
             </div>
 
